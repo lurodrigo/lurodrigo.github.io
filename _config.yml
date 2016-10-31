@@ -6,14 +6,14 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 # Site Settings
-locale                   : "en"
-title                    : "Site Title"
+locale                   : "pt-BR"
+title                    : "lurodrigo"
 title_separator          : "-"
-name                     : "Your Name"
+name                     : "Luiz Rodrigo"
 description              : "An amazing website."
-url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : http://lurodrigo.github.io
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : lurodrigo/lurodrigo.github.io 
 teaser                   : # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
@@ -77,30 +77,30 @@ analytics:
 
 # Site Author
 author:
-  name             : "Your Name"
-  avatar           : "bio-photo.jpg"
+  name             : "Luiz Rodrigo"
+  avatar           : "lurodrigo.jpg"
   bio              : "I am an amazing person."
   location         : "Somewhere"
-  email            :
-  uri              :
+  email            : me@lurodrigo.com
+  uri              : http://lurodrigo.com
   bitbucket        :
   codepen          :
   dribbble         :
   flickr           :
-  facebook         :
+  facebook         : lurodrigo
   foursquare       :
-  github           :
+  github           : lurodrigo
   google_plus      :
   keybase          :
-  instagram        :
-  lastfm           :
+  instagram        : mohnerdeoluiz
+  lastfm           : lu_rodrigo
   linkedin         :
   pinterest        :
   soundcloud       :
-  stackoverflow    : # "123456/username" (the last part of your profile url, e.g. http://stackoverflow.com/users/123456/username)
+  stackoverflow    : 756490/luiz-rodrigo
   steam            :
   tumblr           :
-  twitter          :
+  twitter          : lu_rodrigo
   vine             :
   weibo            :
   xing             :
