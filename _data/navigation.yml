@@ -1,7 +1,16 @@
 # main links links
 main:
-  - title: "Sample Navigation Link"
-    url: https://mmistakes.github.io/minimal-mistakes/docs/navigation/
+  - title: "R101"
+    url: /r101/instalando-r-rstudio
 
   - title: "Sample Navigation Link 2"
     url: /
+
+r101:
+  - title: "Começando"
+    url:
+    children:
+        - title: "Instalando R e RStudio"
+          url: /r101/instalando-r-rstudio
+        - title: "Livros de Referência"
+          url: /r101/referencias

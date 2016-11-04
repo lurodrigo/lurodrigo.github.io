@@ -7,20 +7,20 @@
 
 # Site Settings
 locale                   : "pt-BR"
-title                    : "lurodrigo"
+title                    : "Luiz Rodrigo"
 title_separator          : "-"
 name                     : "Luiz Rodrigo"
-description              : "An amazing website."
+description              : ""
 url                      : https://lurodrigo.github.io
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : lurodrigo/lurodrigo.github.io 
+repository               : lurodrigo/lurodrigo.github.io
 teaser                   : # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "google-plus", "staticman", "custom"
   disqus:
-    shortname            : # https://help.disqus.com/customer/portal/articles/466208-what-s-a-shortname-
+    shortname            : lurodrigoetc
   discourse:
     server               : # https://meta.discourse.org/t/embedding-discourse-comments-via-javascript/31963 , e.g.: meta.discourse.org
   facebook:
@@ -55,9 +55,9 @@ yandex_site_verification :
 
 # Social Sharing
 twitter:
-  username               :
+  username               : lu_rodrigo
 facebook:
-  username               :
+  username               : lurodrigo
   app_id                 :
   publisher              :
 og_image                 : # Open Graph/Twitter default site image
@@ -79,10 +79,10 @@ analytics:
 author:
   name             : "Luiz Rodrigo"
   avatar           : "lurodrigo.jpg"
-  bio              : "I am an amazing person."
-  location         : "Somewhere"
+  bio              : ""
+  location         : "Rio de Janeiro"
   email            : me@lurodrigo.com
-  uri              : http://lurodrigo.com
+  uri              :
   bitbucket        :
   codepen          :
   dribbble         :
@@ -161,6 +161,42 @@ kramdown:
   smart_quotes: lsquo,rsquo,ldquo,rdquo
   enable_coderay: false
 
+collections:
+  r101:
+    output: true
+    permalink: /:collection/:path/
+
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
+  # _r101
+  - scope:
+      path: ""
+      type: docs
+    values:
+      layout: single
+      read_time: false
+      author_profile: false
+      share: false
+      comments: false
+      sidebar:
+        nav: "r101"
 
 # Sass/SCSS
 sass:
