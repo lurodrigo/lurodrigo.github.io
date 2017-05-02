@@ -195,7 +195,7 @@ Exp = symbolic(
 is_exp = function(x) x%@%"type" == "exp"
 ```
 
-Strictly speaking, the formula for the inverse of a monomimal I gave above when the function
+Strictly speaking, the formula for the inverse of a monomial I gave above when the function
 is defined for positive numbers only.
 Tackling this kind of problem requires a sophistication I don't want to engage with in this
 series of posts.
