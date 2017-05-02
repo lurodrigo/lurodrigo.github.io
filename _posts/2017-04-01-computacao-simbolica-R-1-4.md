@@ -1,6 +1,6 @@
 ---
 title:  "Escrevendo um pequeno sistema de computação simbólica em R (Parte 1/4)"
-date:   2017-05-01 21:38:00 -0600
+date:   2017-05-01 21:38:00 -0300
 categories: blog
 ---
 
