@@ -1,7 +1,8 @@
 ---
 title:  "Escrevendo um pequeno sistema de computação simbólica em R (Parte 1/4)"
 date:   2017-05-01 21:38:00 -0300
-categories: blog
+categories: Português R R_pt
+tags: R lazyeval purrr "Computação simbólica" "Programação funcional" "Metaprogramação"
 ---
 
 Essa semana me peguei pensando em como pacotes como o `dplyr` utilizam muito recursos de metaprogramação (isto é, computação sobre a própria linguagem) para criar funções com grande poder expressivo. Me perguntei: será que é possível usar isso para manipulação algébrica? Em particular, seria possível criar uma função que, dada a descrição simbólica de uma função, computasse sua derivada?
