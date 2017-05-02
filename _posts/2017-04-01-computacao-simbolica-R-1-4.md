@@ -97,7 +97,7 @@ Experimente rodar o código anterior retirando as chamadas a `lazy()`. Você ir�
     Error in symbolic(f = function(x) 0, repr = "0", df = Null, type = "null") : 
       object 'Null' not found
 
-Isto ocorre pq Null ainda não está definido no momento em que `symbolic()` é chamada. A lazy evaluation cortorna isto. Ela diz que, quando eu quiser calcular a derivada de Null, será a própria Null. Só que quando isso acontecer, Null já terá sido definida. Problema resolvido :)
+Isto ocorre porque `Null` ainda não está definido no momento em que `symbolic()` é chamada. A lazy evaluation cortorna isto. Ela diz que, quando eu quiser calcular a derivada de `Null`, basta retornar a própria `Null`. Só que quando isso acontecer, `Null` já terá sido definida. Problema resolvido :)
 
 Podemos, então, definir mais alguns tipos de funções:
 
