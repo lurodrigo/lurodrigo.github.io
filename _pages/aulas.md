@@ -6,7 +6,7 @@ sitemap: false
 permalink: /aulas/
 ---
 
-![](quadro.jpg)
+![][1]
 
 Tenho quatro anos de experiência dando aulas particulares. Atualmente, me ofereço para dar aulas
 nas seguintes disciplinas:
@@ -31,3 +31,5 @@ Você pode entrar em contato comigo através do meu e-mail (me@lurodrigo.com) ou
 (21 96573-9462). Possui WhatsApp e Telegram.
 
 Você pode mais sobre minhas referências na página [sobre mim](/sobre/).
+
+[1]:{{ site.url }}/images/quadro.jpg
