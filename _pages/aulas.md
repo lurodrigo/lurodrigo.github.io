@@ -28,7 +28,7 @@ Trabalho com aulas esporádicas e também com acompanhamento contínuo para esco
 Dou aulas em seu domicílio ou em bibliotecas públicas.
 
 Você pode entrar em contato comigo através do meu e-mail (me@lurodrigo.com) ou telefone
-(21 96573-9462). Possui WhatsApp e Telegram.
+(21 96573-9462). Possuo WhatsApp e Telegram.
 
 Você pode mais sobre minhas referências na página [sobre mim](/sobre/).
 
