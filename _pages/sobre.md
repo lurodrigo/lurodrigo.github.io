@@ -13,7 +13,7 @@ computação teórica. Programo desde os 13 anos de idade e a linguagem que uso 
  e acadêmica no meu [currículo][1]. Também trabalho com [aulas particulares][2].
 
 No mais, tenho interesse em música eletrônica (synthwave em particular), cinema art-house 
-(iraniano e chinês, em especial), mobilidade urbana e cozinha. Politicamente, sou liberal tanto nos eixos social
+(iraniano e chinês, em especial), mobilidade urbana e cozinha. Politicamente, sou liberal nos eixos social
 e econômico. Minha rotina é descrita com alto nível de detalhe no meu [twitter][3].
 
 [1]:{{ site.url }}/downloads/lurodrigo-en.pdf
