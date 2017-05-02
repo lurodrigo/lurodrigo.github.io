@@ -14,6 +14,8 @@ tags:
   - "Metaprogramação"
 ---
 
+*There's an english translation of this post [available here][1].*
+
 Essa semana me peguei pensando em como pacotes como o `dplyr` utilizam muito recursos de metaprogramação (isto é, computação sobre a própria linguagem) para criar funções com grande poder expressivo. Me perguntei: será que é possível usar isso para manipulação algébrica? Em particular, seria possível criar uma função que, dada a descrição simbólica de uma função, computasse sua derivada?
 
 Pensei no problema da derivada, em particular, porque é evidente que encontrar as derivadas de funções elementares é uma mera manipulação formal (embora tediosa), ao contrário da busca por antiderivadas, que está muito mais para *arte* que para algoritmo.
@@ -200,3 +202,4 @@ Até agora conseguimos definir algumas funções elementares, mas ainda não pod
 -   Parte 3/4: Ensinando as simplificações álgebricas
 -   Parte 4/4: Tornando a representação das funções mais inteligente
 
+[1]: https://lurodrigo.github.io/2017/05/symbolic-computation-R-1-4/

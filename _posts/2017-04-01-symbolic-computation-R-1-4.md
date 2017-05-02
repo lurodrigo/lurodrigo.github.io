@@ -14,6 +14,8 @@ tags:
   - "Metaprogramming"
 ---
 
+*Este post foi escrito originalmente em [português][2].*
+
 This week I found myself thinking on how packages like `dplyr` use a lot of
 metaprogramming (that is, computation over the language itself) and functional tools to create
 functions having a lot of expressive power. I asked myself: can I possibly use these tools for algebraic manipulation? In particular, could I use them to build a system capable of doing symbolic differentiation?
@@ -245,3 +247,4 @@ In the next post of this series I'm going to explain how we can add these featur
 -   Part 4/4: Producing smarter string representations
 
 [1]:https://en.wikipedia.org/wiki/Lazy_evaluation
+[2]:https://lurodrigo.github.io/2017/05/computacao-simbolica-R-1-4/
