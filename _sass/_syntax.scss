@@ -19,7 +19,6 @@ figure.highlight {
     right: 0;
     padding: 0.5em;
     content: "\f121";
-    font-family: "fontawesome" !important;
     line-height: 1;
     text-transform: none;
     speak: none;
@@ -47,7 +46,6 @@ figure.highlight {
     // line numbers
     &.gutter {
       padding-right: 1em;
-      color: $light-gray;
     }
   }
 
