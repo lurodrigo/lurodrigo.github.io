@@ -1,16 +1,8 @@
 # main links links
 main:
-  - title: "R101"
-    url: /r101/instalando-r-rstudio
+  - title: "Blog"
+    url: /blog
 
-  - title: "Sample Navigation Link 2"
-    url: /
+  - title: "Sobre mim"
+    url: /sobre/
 
-r101:
-  - title: "Começando"
-    url:
-    children:
-        - title: "Instalando R e RStudio"
-          url: /r101/instalando-r-rstudio
-        - title: "Livros de Referência"
-          url: /r101/referencias

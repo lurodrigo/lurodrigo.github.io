@@ -111,6 +111,7 @@ author:
 include:
   - .htaccess
   - _pages
+  - _posts
 exclude:
   - "*.sublime-project"
   - "*.sublime-workspace"
@@ -161,11 +162,6 @@ kramdown:
   smart_quotes: lsquo,rsquo,ldquo,rdquo
   enable_coderay: false
 
-collections:
-  r101:
-    output: true
-    permalink: /:collection/:path/
-
 defaults:
   # _posts
   - scope:
@@ -185,18 +181,6 @@ defaults:
     values:
       layout: single
       author_profile: true
-  # _r101
-  - scope:
-      path: ""
-      type: docs
-    values:
-      layout: single
-      read_time: false
-      author_profile: false
-      share: false
-      comments: false
-      sidebar:
-        nav: "r101"
 
 # Sass/SCSS
 sass:
