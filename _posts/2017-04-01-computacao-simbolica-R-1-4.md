@@ -31,7 +31,9 @@ Quero deixar claro que não sou nenhum especialista em computação simbólica e
 
 Mãos à obra, então! Estou usando três pacotes: `purrr`, `lazyeval`, e `glue`. O uso deles será explicado ao longo do texto.
 
-O primeiro detalhe é que quero ter uma função *chamável*, isto é, que eu possa avaliar f(x) diretamente para algum número, mas ao mesmo tempo preciso que ela possa armazenar mais informações, por exemplo, uma representação em string ou qual é a sua derivada. Para isso, posso usar os atributos em R. Em R, todo objeto pode guardar dados através da função `attr()`. Pode-se depois acessá-los via `attr()` ou `%@%`. Então basta pegar uma função matemática ordinária em R e adicionar os dados que forem necessários a ela via atributos. Também modificarei o método `print()` e o `as.character` delas para que o trabalho com essas funções no console seja mais agradável. Por último, criarei uma função para computar simbolicamente a n-ésima derivada.
+O primeiro detalhe é que quero ter uma função *chamável*, isto é, que eu possa avaliar f(x) diretamente para algum número, mas ao mesmo tempo preciso que ela possa armazenar mais informações, por exemplo, uma representação em string ou qual é a sua derivada. Para isso, posso usar os atributos em R. 
+
+Em R, todo objeto pode guardar dados através da função `attr()`. Pode-se depois acessá-los via `attr()` ou `%@%`. Então basta pegar uma função matemática ordinária em R e adicionar os dados que forem necessários a ela via atributos. Também modificarei o método `print()` e o `as.character` delas para que o trabalho com essas funções no console seja mais agradável. Por último, criarei uma função para computar simbolicamente a n-ésima derivada.
 
 ``` r
 library(purrr)
