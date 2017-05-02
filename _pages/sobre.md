@@ -6,4 +6,6 @@ sitemap: false
 permalink: /sobre/
 ---
 
-Isto é apenas um teste.
+Ver meu CV ([inglês][1]).
+
+[1]:{{ site.url }}/downloads/lurodrigo-en.pdf
