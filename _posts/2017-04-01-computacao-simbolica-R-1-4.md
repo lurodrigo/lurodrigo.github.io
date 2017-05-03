@@ -12,6 +12,7 @@ tags:
   - "Computação simbólica" 
   - "Programação funcional" 
   - "Metaprogramação"
+excerpt: "Iniciando uma série de posts que ensina a desenvolver uma domain-specific language de computação simbólica em R"
 ---
 
 *An english version of this post is available [here][1].*
