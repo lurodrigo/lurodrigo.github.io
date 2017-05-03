@@ -12,7 +12,7 @@ tags:
   - "Symbolic computation"
   - "Functional programming"
   - "Metaprogramming"
-excerpt: "This posts starts a series showing how a domain-specific language for symbolic computation can be written inside R."
+excerpt: "This post starts a series showing how a domain-specific language for symbolic computation can be written inside R."
 ---
 
 *Este post foi escrito originalmente em [português][2].*
