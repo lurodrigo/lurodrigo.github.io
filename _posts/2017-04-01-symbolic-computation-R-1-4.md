@@ -24,7 +24,7 @@ I came up with the differentiation problem in particular because it's clear that
 finding derivatives of elementary functions consists of mere formal (though tedious)
 manipulation. Symbolic integration, in contrast, is more an art than an algorithm.
 
-I found out, after playing with the idea and a few days of tinkering, that doing
+After playing with the idea and a few days of tinkering, I figured out that doing
 it is not only possible, but it also can be done with relative ease. It's an exercise
 that illustrates pretty well how R's functional and metaprogramming capabilities
 translate to concise and expressive code.
