@@ -143,7 +143,7 @@ Log = symbolic(
   f = log,
   repr = "log(x)",
   df = Mono(1, -1),
-  type = "logarithm",
+  type = "log",
   inverse = Exp
 )
 
