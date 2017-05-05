@@ -12,6 +12,7 @@ tags:
   - "Symbolic computation"
   - "Functional programming"
   - "Metaprogramming"
+excerpt: "This post starts a series showing how a domain-specific language for symbolic computation can be written inside R."
 ---
 
 *Este post foi escrito originalmente em [português][2].*
@@ -24,7 +25,7 @@ I came up with the differentiation problem in particular because it's clear that
 finding derivatives of elementary functions consists of mere formal (though tedious)
 manipulation. Symbolic integration, in contrast, is more an art than an algorithm.
 
-I found out, after playing with the idea and a few days of tinkering, that doing
+After playing with the idea and a few days of tinkering, I figured out that doing
 it is not only possible, but it also can be done with relative ease. It's an exercise
 that illustrates pretty well how R's functional and metaprogramming capabilities
 translate to concise and expressive code.
@@ -195,7 +196,7 @@ Exp = symbolic(
 is_exp = function(x) x%@%"type" == "exp"
 ```
 
-Strictly speaking, the formula for the inverse of a monomial I gave above when the function
+Strictly speaking, the formula for the inverse of a monomial I gave above is valid only when the function
 is defined for positive numbers only.
 Tackling this kind of problem requires a sophistication I don't want to engage with in this
 series of posts.

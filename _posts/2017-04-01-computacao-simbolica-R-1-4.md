@@ -12,9 +12,10 @@ tags:
   - "Computação simbólica" 
   - "Programação funcional" 
   - "Metaprogramação"
+excerpt: "Iniciando uma série de posts que ensina a desenvolver uma domain-specific language de computação simbólica em R"
 ---
 
-*There's an english translation of this post [available here][1].*
+*An english version of this post is available [here][1].*
 
 Essa semana me peguei pensando em como pacotes como o `dplyr` utilizam muito recursos de metaprogramação (isto é, computação sobre a própria linguagem) para criar funções com grande poder expressivo. Me perguntei: será que é possível usar isso para manipulação algébrica? Em particular, seria possível criar uma função que, dada a descrição simbólica de uma função, computasse sua derivada?
 
@@ -143,7 +144,7 @@ Log = symbolic(
   f = log,
   repr = "log(x)",
   df = Mono(1, -1),
-  type = "logarithm",
+  type = "log",
   inverse = Exp
 )
 
