@@ -1,11 +1,11 @@
 # main links links
 main:
-  - title: "Home"
-    url: /
-
   - title: "Aulas"
     url: /aulas/
 
   - title: "Sobre mim"
     url: /sobre/
+    
+  - title: "About me"
+    url: /about/
 
