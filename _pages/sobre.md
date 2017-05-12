@@ -6,6 +6,8 @@ sitemap: false
 permalink: /sobre/
 ---
 
+![][4]
+
 Sou manauara radicado no Rio de Janeiro. Estudo Matemática (bacharelado) na Universidade Federal 
 do Rio de Janeiro (UFRJ), quinto período. Meus maiores interesses acadêmicos estão em análise e 
 computação teórica. Programo desde os 13 anos de idade e a linguagem que uso com mais frequência 
@@ -19,3 +21,4 @@ e econômico. Minha rotina é descrita com alto nível de detalhe no meu [twitte
 [1]:{{ site.url }}/downloads/lurodrigo-en.pdf
 [2]:{{ site.url }}/aulas/
 [3]:http://twitter.com/lu_rodrigo
+[4]:{{ site.url }}/images/lurodrigo_large.jpg
