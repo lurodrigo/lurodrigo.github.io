@@ -11,8 +11,10 @@ permalink: /sobre/
 Sou manauara radicado no Rio de Janeiro. Estudo Matemática (bacharelado) na Universidade Federal 
 do Rio de Janeiro (UFRJ), quinto período. Meus maiores interesses acadêmicos estão em análise e 
 computação teórica. Programo desde os 13 anos de idade e a linguagem que uso com mais frequência 
-é R. Falo português e inglês. Você pode encontrar mais detalhes sobre minha trajetória profissional
- e acadêmica no meu [currículo][1]. Também trabalho com [aulas particulares][2].
+é R. Falo português e inglês. Já trabalhei com análise de sistemas, monitoria e lecionando em cursos.
+Atualmente, trabalho numa consultoria focada em métodos econométricos. Você pode encontrar mais 
+detalhes sobre minha trajetória profissional e acadêmica no meu [currículo][1]. Também trabalho 
+com [aulas particulares][2].
 
 No mais, tenho interesse em música eletrônica (synthwave em particular), cinema art-house 
 (iraniano e chinês, em especial), mobilidade urbana e cozinha. Politicamente, sou liberal nos eixos social
