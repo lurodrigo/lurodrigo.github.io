@@ -42,7 +42,7 @@
   }
 
   .fa {
-    color: mix(#fff, $gray, 25%);
+    color: $gray;
   }
 }
 
@@ -53,7 +53,7 @@
 
 .page__footer-follow {
 
-  color: $dark-gray;
+  color: $gray;
 
   ul {
     margin: 0;
