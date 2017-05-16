@@ -2,6 +2,8 @@
    Variables
    ========================================================================== */
 
+@import url("https://fonts.googleapis.com/css?family=Lora");
+
 /*
    Typography
    ========================================================================== */
@@ -13,7 +15,7 @@ $paragraph-indent           : false; // true, false (default)
 $indent-var                 : 1.3em;
 
 /* system typefaces */
-$serif                      : Georgia, Times, serif;
+$serif                      : Lora, Georgia, Times, serif;
 $sans-serif                 : -apple-system, ".SFNSText-Regular", "San Francisco", "Roboto", "Segoe UI", "Helvetica Neue", "Lucida Grande", Arial, sans-serif;
 $monospace                  : Consolas, "Lucida Console", Monaco, monospace;
 
