@@ -253,7 +253,7 @@ Compose = function(f, g) {
 }
 ```
 
-Lembre-se de atualizar o parâmetro `type`! Por, exemplo, a nova definição de `Null` é:
+Lembre-se de inserir o parâmetro `this`! Por, exemplo, a nova definição de `Null` é:
 
 ``` r
 Null = symbolic(
