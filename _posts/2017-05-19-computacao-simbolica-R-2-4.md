@@ -15,7 +15,7 @@ tags:
 excerpt: "O segundo post da série msotra como podemos definir as operações de adição, multiplicação e composição de funções."
 ---
 
-No post de hoje, irei mostrar como estender a pequena linguagem desenvolvida no post anterior para que possamos definir novas funções a partir das existentes usando somas, produtos e composições.
+No post de hoje irei mostrar como estender a pequena linguagem desenvolvida no post anterior para que possamos definir novas funções a partir das existentes usando somas, produtos e composições.
 
 Como ponto de partida, é útil pegar o código como foi finalizado no último post. Ele está disponível [aqui](https://github.com/lurodrigo/symbolic/blob/master/R/symbolic_01.R).
 
@@ -73,7 +73,7 @@ Mono(1, 2) + 0
 
 Observe a naturalidade com que criamos a função soma e a sua derivada. É praticamente uma definição matemática :)
 
-Uma conveniência interessante é criar um método `Sum` para quando quiseremos somar uma lista de funções. Desse modo, podemos operá-las em cadeias construídas com o operador `%>%`. Nem precisamos escrever muito código para isso: basta usar a função `reduce`, do pacote `purrr`[1]. Nela, você passa uma lista de argumentos e uma função com dois operandos. Ela aplica a operação nos dois primeiros elementos da lista, guarda o resultado, e aplica com o terceiro elemento, e assim sucessivamente.
+Uma conveniência interessante é criar um método `Sum` para quando quisermos somar uma lista de funções. Desse modo, podemos operá-las em cadeias construídas com o operador `%>%`. Nem precisamos escrever muito código para isso: basta usar a função `reduce`, do pacote `purrr`[1]. Nela, você passa uma lista de argumentos e uma função com dois operandos. Ela aplica a operação nos dois primeiros elementos da lista, guarda o resultado, aplica com o terceiro elemento, e assim sucessivamente.
 
 ``` r
 Sum = function(l) reduce(l, `+.symbolic`)
@@ -146,7 +146,7 @@ D(Log * Mono())
 Definindo composições
 ---------------------
 
-A composição de funções é a operação que a apresenta o maior número de sutilezas. Comecemos pela mais simples: representação. Até agora estávamos definindo as expressões envolvendo diretamente "x". É interessante redefini-las em termos de um *placeholder*, que pode vir a ser "x" ou um "f(x)", no caso de uma composição de funções. Para isso, basta definirmos o atributo `repr` em termos de `{x}`: a função `glue` cuidará do resto. Atenção especial deve ser tomada no caso em que `repr` é parametrizado. Quando isto ocorre, deve-se usar `{{x}}`, pois `glue` será avaliada duas vezes: uma com os parâmetros usuais de `repr` e outra com com o placeholder da função de fato.
+A composição de funções é a operação que a apresenta o maior número de sutilezas. Comecemos pela mais simples: representação. Até agora estávamos definindo as expressões de uma forma que envolvia diretamente "x". É interessante redefini-las em termos de um *placeholder*, que pode vir a ser "x" ou um "f(x)", no caso de uma composição de funções. Para isso, basta definirmos o atributo `repr` em termos de `{x}`: a função `glue` cuidará do resto. Atenção especial deve ser tomada no caso em que `repr` é parametrizado. Quando isto ocorre, deve-se usar <code>{% raw %}{{x}}{% endraw %}</code>, pois `glue` será avaliada duas vezes, em dois momentos diferentes: uma com os parâmetros usuais de `repr`, logo que a função é definida, e outra com o placeholder no lugar de `x`, quando o método `as.character` for executado..
 
 Seguem as modificações que devem ser feitas:
 
@@ -189,15 +189,15 @@ Seguem as modificações que devem ser feitas:
   as.character.symbolic = function(f) glue(f%@%"repr", x = "x")
 ```
 
-Agora fica a representação da composição de funções se torna trivial. Se `f%@%"repr"` é `1*{x}^2 + exp({x})`, por exemplo, a linha `glue(f%@%"repr", x = "sin(x)")` dará a representação desta função composta com a função seno.
+Agora a representação de composições de funções se torna trivial. Se `f%@%"repr"` é `1*{x}^2 + exp({x})`, por exemplo, a linha `glue(f%@%"repr", x = "sin(x)")` dará a representação desta função composta com a função seno.
 
-Segundo problema: Não há nenhum operador definido como função genérica no R que seja intuitivo o suficiente para usarmos para a composição, não existe um operador <code>ࢪ</code>. Resta nos contentar com uma função chamada `Compose` ou algo do tipo. Ou não! Seria interessante que pudéssemos compor as funções usando uma notação como `Log(Sin)`. Isso é possível? Sim!
+Segundo problema: Não há nenhum operador definido como função genérica no R que seja intuitivo o suficiente para usarmos para a composição, não existe um operador <code>°</code>. Resta nos contentar com uma função chamada `Compose` ou algo do tipo. Ou não! Seria interessante que pudéssemos compor as funções usando uma notação como `Log(Sin)`. Isso é possível? Sim!
 
 Precisaremos, no entanto, modificar a função `symbolic()`. Atualmente ela simplesmente preserva a função f passada como parâmetro. Podemos fazer melhor. Podemos criar uma função nova, g, a partir dela, de modo que g(x) é f(x) em todos os casos normais (isto é, quando o parâmetro é numérico), mas g(x) é uma composição de funções no caso em que x é, ela mesma, uma função simbólica. Por exemplo, `Log(4)` será avaliada como um número, mas `Log(Sin)` como uma composição de funções.
 
-Um detalhe um tanto incoveniente é que, para fazer isso, precisaremos ter a variável ou função auxiliar (`Mono`, `Exp`, exp) que gera as funções. Precisaremos de mais um argumento em `symbolic()` para guardá-lo, que chamaremos de `this`. Naturalmente, precisaremos adicionar um parâmetro `this` na chamada a `symbolic()` das funções que definimos anteriormente.
+Um detalhe um tanto incoveniente é que, para fazer isso, precisaremos ter a variável ou função auxiliar (`Mono`, `Exp`, exp) que gera as funções. Será necessário, para guardá-la, mais um argumento em `symbolic()`, o qual chamaremos de `this`. Naturalmente, teremos que adicionar um parâmetro `this` na chamada a `symbolic()` das funções que definimos anteriormente.
 
-O novo código para `symbolic()` e o código para a função `Compose()` se encontram abaixo. O funcionamento delas é um tanto sofisticado, então recomendo que passe um tempinho testando e tentando entender a execução delas.
+O novo código para `symbolic()` e o código para a função `Compose()` se encontram abaixo. O funcionamento delas é um tanto sofisticado. Portanto, recomendo que passe um tempinho testando e tentando entender o que acontece durante a execução delas.
 
 ``` r
 symbolic = function(f, repr, df, type, this, params = list(), inverse = NULL) {
@@ -292,12 +292,12 @@ D(Poly(1, 2, 3)(Log), 2)
 #> x -> ((2)*(1*x^-1))*(1*x^-1) + (2*(log(x))^1 + 2)*(-1*x^-2)
 ```
 
-Exceto pelas representações extremamente prolixas, aparentemente está tudo correto :)
+Exceto pelas representações extremamente prolixas, tudo parece estar em seu lugar! :)
 
 Novas funções
 -------------
 
-Antes de atacar os problemas de representação e simplificação, há mais que já podemos fazer sem muito trabalho. Podemos definir, por exemplo, operadores de subtração e divisão. Por motivos que ficarão mais claros mais tarde, representaremos -g como a composição de `x -> -x` (isto é, `Mono(a = -1)`) com g, e, naturalmente, f - g como f + (-g), com -g conforme a definição anterior. Analogamente, definimos f / g como a f vezes a composição de `Mono(n = -1)` com g, isto é, a recíproca de g.
+Antes de atacar os problemas de representação e simplificação, há mais coisas que podemos adicionar sem muito trabalho. Podemos definir, por exemplo, operadores de subtração e divisão. Por motivos que ficarão mais claros mais tarde, representaremos -g como a composição de `x -> -x` (isto é, `Mono(a = -1)`) com g, e f - g como f + (-g), com -g seguindo a definição anterior. Analogamente, definimos f / g como a f multiplicado pela composição de `Mono(n = -1)` com g, isto é, a recíproca de g.
 
 ``` r
 `-.symbolic` = function(f, g) {
