@@ -15,7 +15,7 @@ tags:
 excerpt: "Iniciando uma série de posts que ensina a desenvolver uma domain-specific language de computação simbólica em R"
 ---
 
-*An english version of this post is available [here][1].*
+*An english version of this post is available [here](https://lurodrigo.github.io/2017/05/symbolic-computation-R-1-4/).*
 
 Essa semana me peguei pensando em como pacotes como o `dplyr` utilizam muito recursos de metaprogramação (isto é, computação sobre a própria linguagem) para criar funções com grande poder expressivo. Me perguntei: será que é possível usar isso para manipulação algébrica? Em particular, seria possível criar uma função que, dada a descrição simbólica de uma função, computasse sua derivada?
 
@@ -34,7 +34,7 @@ Quero deixar claro que não sou nenhum especialista em computação simbólica e
 
 Mãos à obra, então! Estou usando três pacotes: `purrr`, `lazyeval`, e `glue`. O uso deles será explicado ao longo do texto.
 
-O primeiro detalhe é que quero ter uma função *chamável*, isto é, que eu possa avaliar f(x) diretamente para algum número, mas ao mesmo tempo preciso que ela possa armazenar mais informações, por exemplo, uma representação em string ou qual é a sua derivada. Para isso, posso usar os atributos em R. 
+O primeiro detalhe é que quero ter uma função *chamável*, isto é, que eu possa avaliar f(x) diretamente para algum número, mas ao mesmo tempo preciso que ela possa armazenar mais informações, por exemplo, uma representação em string ou qual é a sua derivada. Para isso, posso usar os atributos em R.
 
 Em R, todo objeto pode guardar dados através da função `attr()`. Pode-se depois acessá-los via `attr()` ou `%@%`. Então basta pegar uma função matemática ordinária em R e adicionar os dados que forem necessários a ela via atributos. Também modificarei o método `print()` e o `as.character` delas para que o trabalho com essas funções no console seja mais agradável. Por último, criarei uma função para computar simbolicamente a n-ésima derivada.
 
@@ -98,7 +98,7 @@ Defino `Null` como o resultado de `symbolic()` aplicado a uma lista de parâmetr
 Experimente rodar o código anterior retirando as chamadas a `lazy()`. Você irá obter a seguinte mensagem de erro:
 
     Error in symbolic(f = function(x) 0, repr = "0", df = Null, type = "null") : 
-      object 'Null' not found
+    object 'Null' not found
 
 Isto ocorre porque `Null` ainda não está definido no momento em que `symbolic()` é chamada. A lazy evaluation cortorna isto. Ela diz que, quando eu quiser calcular a derivada de `Null`, basta retornar a própria `Null`. Só que quando isso acontecer, `Null` já terá sido definida. Problema resolvido :)
 
@@ -199,8 +199,8 @@ D(f, 2)
 
 Até agora conseguimos definir algumas funções elementares, mas ainda não podemos fazer nada muito divertido com elas. O cálculo começa a ficar interessante quando podemos definir novas funções através de somas, produtos e, com destaque especial, composições. No próximo post da série explicarei como adicionar isto ao sistema. Até lá!
 
--   Parte 2/4: Definindo somas, produtos e composições
+-   [Parte 2/4: Definindo somas, produtos e composições](http://lurodrigo.com/2017/05/computacao-simbolica-R-2-4/)
 -   Parte 3/4: Ensinando as simplificações álgebricas
 -   Parte 4/4: Tornando a representação das funções mais inteligente
 
-[1]: https://lurodrigo.github.io/2017/05/symbolic-computation-R-1-4/
+O código como encontrado ao final deste post pode ser visto [aqui](https://github.com/lurodrigo/symbolic/blob/master/R/symbolic_01.R).
