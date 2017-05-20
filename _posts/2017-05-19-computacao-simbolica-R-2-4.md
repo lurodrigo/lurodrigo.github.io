@@ -32,6 +32,8 @@ Sabendo disso, podemos definir o primeiro rascunho do método para somar funçõ
 is_nullf = function(x) is_symbolic(x) && x%@%"type" == "null" # etc
 
 `+.symbolic` = function(f, g) {
+  # checamos o tamanho do vetor porque, no caso em que não é um escalar,
+  # não há uma ideia intuitiva do que deve ser feito
   if (is.numeric(f) && length(f) == 1) 
     return(Const(f) + g)
   if (is.numeric(g) && length(g) == 1)
@@ -42,8 +44,6 @@ is_nullf = function(x) is_symbolic(x) && x%@%"type" == "null" # etc
   if (is_nullf(g))
     return(f)
   
-  # checamos o tamanho do vetor porque, no caso em que não é um escalar,
-  # não há uma ideia intuitiva do que deve ser feito
   symbolic(
     f = function(x) f(x) + g(x),
     repr = glue("{f} + {g}"),
