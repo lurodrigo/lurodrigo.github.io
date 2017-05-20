@@ -12,7 +12,7 @@ tags:
   - "Computação simbólica" 
   - "Programação funcional" 
   - "Metaprogramação"
-excerpt: "O segundo post da série msotra como podemos definir as operações de adição, multiplicação e composição de funções."
+excerpt: "O segundo post da série mostra como podemos definir as operações de adição, multiplicação e composição de funções."
 ---
 
 No post de hoje irei mostrar como estender a pequena linguagem desenvolvida no post anterior para que possamos definir novas funções a partir das existentes usando somas, produtos e composições.
