@@ -229,6 +229,9 @@ symbolic = function(f, repr, df, type, this, params = list(), inverse = NULL) {
   g
 }
 
+has_inverse = function(f) !is.null(f%@%"inverse")
+inverse = function(f) lazy_eval(f%@%"inverse")
+
 Compose = function(f, g) {
   if (is_nullf(f) || is_const(f))
     return(f)
@@ -248,7 +251,11 @@ Compose = function(f, g) {
     df = D(f)(g) * D(g), # regra da cadeia
     type = "composition",
     this = Compose,
-    params = list(f, g)
+    params = list(f, g),
+    inverse = if (has_inverse(f) && has_inverse(g)) 
+        inverse(g)(inverse(f))
+      else 
+        NULL
   )
 }
 ```
@@ -363,3 +370,4 @@ Claro, já podemos definir as funções tangente, secante e até as trigonométr
 O código como encontrado ao final deste post pode ser visto [aqui](https://github.com/lurodrigo/symbolic/blob/master/R/symbolic_02.R).
 
 [1] Há uma função `Reduce` no base-R cumprindo o mesmo papel, mas acho as funções do pacote `purrr` mais consistentes e convenientes.
+
