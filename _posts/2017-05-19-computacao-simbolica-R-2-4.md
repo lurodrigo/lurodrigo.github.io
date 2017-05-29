@@ -146,7 +146,7 @@ D(Log * Mono())
 Definindo composições
 ---------------------
 
-A composição de funções é a operação que a apresenta o maior número de sutilezas. Comecemos pela mais simples: representação. Até agora estávamos definindo as expressões de uma forma que envolvia diretamente "x". É interessante redefini-las em termos de um *placeholder*, que pode vir a ser "x" ou um "f(x)", no caso de uma composição de funções. Para isso, basta definirmos o atributo `repr` em termos de `{x}`: a função `glue` cuidará do resto. Atenção especial deve ser tomada no caso em que `repr` é parametrizado. Quando isto ocorre, deve-se usar <code>{% raw %}{{x}}{% endraw %}</code>, pois `glue` será avaliada duas vezes, em dois momentos diferentes: uma com os parâmetros usuais de `repr`, logo que a função é definida, e outra com o placeholder no lugar de `x`, quando o método `as.character` for executado..
+A composição de funções é a operação que a apresenta o maior número de sutilezas. Comecemos pela mais simples: representação. Até agora estávamos definindo as expressões de uma forma que envolvia diretamente "x". É interessante redefini-las em termos de um *placeholder*, que pode vir a ser "x" ou um "f(x)", no caso de uma composição de funções. Para isso, basta definirmos o atributo `repr` em termos de `{x}`: a função `glue` cuidará do resto. Atenção especial deve ser tomada no caso em que `repr` é parametrizado. Quando isto ocorre, deve-se usar <code>{% raw %}{{x}}{% endraw %}</code>, pois `glue` será avaliada duas vezes, em dois momentos diferentes: uma com os parâmetros usuais de `repr`, logo que a função é definida, e outra com o placeholder no lugar de `x`, quando o método `as.character` for executado.
 
 Seguem as modificações que devem ser feitas:
 
@@ -195,7 +195,7 @@ Segundo problema: Não há nenhum operador definido como função genérica no R
 
 Precisaremos, no entanto, modificar a função `symbolic()`. Atualmente ela simplesmente preserva a função f passada como parâmetro. Podemos fazer melhor. Podemos criar uma função nova, g, a partir dela, de modo que g(x) é f(x) em todos os casos normais (isto é, quando o parâmetro é numérico), mas g(x) é uma composição de funções no caso em que x é, ela mesma, uma função simbólica. Por exemplo, `Log(4)` será avaliada como um número, mas `Log(Sin)` como uma composição de funções.
 
-Um detalhe um tanto incoveniente é que, para fazer isso, precisaremos ter a variável ou função auxiliar (`Mono`, `Exp`, exp) que gera as funções. Será necessário, para guardá-la, mais um argumento em `symbolic()`, o qual chamaremos de `this`. Naturalmente, teremos que adicionar um parâmetro `this` na chamada a `symbolic()` das funções que definimos anteriormente.
+Um detalhe um tanto inconveniente é que, para fazer isso, precisaremos ter a variável ou função auxiliar (`Mono`, `Exp`, exp) que gera as funções. Será necessário, para guardá-la, mais um argumento em `symbolic()`, o qual chamaremos de `this`. Naturalmente, teremos que adicionar um parâmetro `this` na chamada a `symbolic()` das funções que definimos anteriormente.
 
 O novo código para `symbolic()` e o código para a função `Compose()` se encontram abaixo. O funcionamento delas é um tanto sofisticado. Portanto, recomendo que passe um tempinho testando e tentando entender o que acontece durante a execução delas.
 
