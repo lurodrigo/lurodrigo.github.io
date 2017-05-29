@@ -1,5 +1,5 @@
 ---
-title:  "Writing a simple symbolic computation system in R (Part 1/4)"
+title:  "Writing a simple symbolic computation system using R (Part 1/4)"
 date:   2017-05-02 21:00:00 -0300
 categories:
   - English
