@@ -15,6 +15,8 @@ tags:
 excerpt: "O segundo post da série mostra como podemos definir as operações de adição, multiplicação e composição de funções."
 ---
 
+*An english version of this post is available [here](http://lurodrigo.com/2017/05/symbolic-computation-R-2-4/).*
+
 No post de hoje irei mostrar como estender a pequena linguagem desenvolvida no post anterior para que possamos definir novas funções a partir das existentes usando somas, produtos e composições.
 
 Como ponto de partida, é útil pegar o código como foi finalizado no último post. Ele está disponível [aqui](https://github.com/lurodrigo/symbolic/blob/master/R/symbolic_01.R).
@@ -195,7 +197,7 @@ Segundo problema: Não há nenhum operador definido como função genérica no R
 
 Precisaremos, no entanto, modificar a função `symbolic()`. Atualmente ela simplesmente preserva a função f passada como parâmetro. Podemos fazer melhor. Podemos criar uma função nova, g, a partir dela, de modo que g(x) é f(x) em todos os casos normais (isto é, quando o parâmetro é numérico), mas g(x) é uma composição de funções no caso em que x é, ela mesma, uma função simbólica. Por exemplo, `Log(4)` será avaliada como um número, mas `Log(Sin)` como uma composição de funções.
 
-Um detalhe um tanto inconveniente é que, para fazer isso, precisaremos ter a variável ou função auxiliar (`Mono`, `Exp`, exp) que gera as funções. Será necessário, para guardá-la, mais um argumento em `symbolic()`, o qual chamaremos de `this`. Naturalmente, teremos que adicionar um parâmetro `this` na chamada a `symbolic()` das funções que definimos anteriormente.
+Um detalhe um tanto inconveniente é que, para fazer isso, precisaremos ter a variável ou função auxiliar (`Mono`, `Exp`, etc) que gera as funções. Será necessário, para guardá-la, mais um argumento em `symbolic()`, o qual chamaremos de `this`. Naturalmente, teremos que adicionar um parâmetro `this` na chamada a `symbolic()` das funções que definimos anteriormente.
 
 O novo código para `symbolic()` e o código para a função `Compose()` se encontram abaixo. O funcionamento delas é um tanto sofisticado. Portanto, recomendo que passe um tempinho testando e tentando entender o que acontece durante a execução delas.
 
@@ -260,7 +262,7 @@ Compose = function(f, g) {
 }
 ```
 
-Lembre-se de inserir o parâmetro `this`! Por, exemplo, a nova definição de `Null` é:
+Lembre-se de inserir o parâmetro `this`! Por exemplo, a nova definição de `Null` é:
 
 ``` r
 Null = symbolic(
@@ -363,11 +365,10 @@ D(Sin, 4)
 
 Claro, já podemos definir as funções tangente, secante e até as trigonométricas inversas, como arco-tangente. Isto fica como exercício para o leitor (*risos*). Até o próximo post!
 
--   [Parte 1/4: Definindo somas, produtos e composições](http://lurodrigo.com/2017/05/computacao-simbolica-R-1-4/)
+-   [Parte 1/4: Construindo a estrutura do sistema](http://lurodrigo.com/2017/05/computacao-simbolica-R-1-4/)
 -   Parte 3/4: Ensinando as simplificações álgebricas
 -   Parte 4/4: Tornando a representação das funções mais inteligente
 
 O código como encontrado ao final deste post pode ser visto [aqui](https://github.com/lurodrigo/symbolic/blob/master/R/symbolic_02.R).
 
 [1] Há uma função `Reduce` no base-R cumprindo o mesmo papel, mas acho as funções do pacote `purrr` mais consistentes e convenientes.
-

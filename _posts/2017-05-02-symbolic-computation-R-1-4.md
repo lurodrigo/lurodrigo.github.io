@@ -15,50 +15,30 @@ tags:
 excerpt: "This post starts a series showing how a domain-specific language for symbolic computation can be written using R."
 ---
 
-*Este post foi escrito originalmente em [português][2].*
+*This post was originally wirtten in [portuguese](https://lurodrigo.github.io/2017/05/computacao-simbolica-R-1-4/).*
 
-This week I found myself thinking on how packages like `dplyr` use a lot of
-metaprogramming (that is, computation over the language itself) and functional tools to create
-functions having a lot of expressive power. I asked myself: can I possibly use these tools for algebraic manipulation? In particular, could I use them to build a system capable of doing symbolic differentiation?
+This week I found myself thinking on how packages like `dplyr` use a lot of metaprogramming (that is, computation over the language itself) and functional tools to create functions having a lot of expressive power. I asked myself: can I possibly use these tools for algebraic manipulation? In particular, could I use them to build a system capable of doing symbolic differentiation?
 
-I came up with the differentiation problem in particular because it's clear that
-finding derivatives of elementary functions consists of mere formal (though tedious)
-manipulation. Symbolic integration, in contrast, is more an art than an algorithm.
+I came up with the differentiation problem in particular because it's clear that finding derivatives of elementary functions consists of mere formal (though tedious) manipulation. Symbolic integration, in contrast, is more an art than an algorithm.
 
-After playing with the idea and a few days of tinkering, I figured out that doing
-it is not only possible, but it also can be done with relative ease. It's an exercise
-that illustrates pretty well how R's functional and metaprogramming capabilities
-translate to concise and expressive code.
+After playing with the idea and a few days of tinkering, I figured out that doing it is not only possible, but it also can be done with relative ease. It's an exercise that illustrates pretty well how R's functional and metaprogramming capabilities translate to concise and expressive code.
 
 I wanted this system, (or, being fancy, *domain-specific language*) to satisfy four requisites:
 
-1. It must describe concisely all elementary functions from calculus, that is, anything
-that's built with polynomials, exponentials, logarithms and trigonometric functions.
-2. It must be able to manipulate them both symbolically and numerically.
-3. It must be able to compute their derivatives symbolically.
-4. The computed symbolic expressions must be simple, whenever possible.
+1.  It must describe concisely all elementary functions from calculus, that is, anything that's built with polynomials, exponentials, logarithms and trigonometric functions.
+2.  It must be able to manipulate them both symbolically and numerically.
+3.  It must be able to compute their derivatives symbolically.
+4.  The computed symbolic expressions must be simple, whenever possible.
 
-Let it be clear that I'm not a symbolic computation expert, so a system for
-real-world use would probably need to implement a lot of optimizations to the algorithms
-I use.
+Let it be clear that I'm not a symbolic computation expert, so a system for real-world use would probably need to implement a lot of optimizations to the algorithms I use.
 
-Let's get started, then. First, I'm going to need three packages: `purrr`, `lazyeval`, and `glue`,
-so install them if you do not have them installed yet. I'll explain the
-functions as I use them.
+Let's get started, then. First, I'm going to need three packages: `purrr`, `lazyeval`, and `glue`, so install them if you do not have them installed yet. I'll explain the functions as I use them.
 
-The first tough detail is that I want functions to be *callable*. In other words,
-I want them to be evaluated using the traditional function syntax:
-the function name followed by a pair of parentheses enclosing its argument. At
-the same time, I need them to store additional data, such as a string representation,
-its derivative or its inverse. To do it, I'm going to need R *attributes*.
+The first tough detail is that I want functions to be *callable*. In other words, I want them to be evaluated using the traditional function syntax: the function name followed by a pair of parentheses enclosing its argument. At the same time, I need them to store additional data, such as a string representation, its derivative or its inverse. To do it, I'm going to need R *attributes*.
 
-In R, every object can store data through attributes, setting them using `attr()`. To access them,
-you can use `attr()` itself or the operator `%@%` provided by `purrr`. Thus, I only need to
-take an ordinary mathematical function and add the data needed through attributes.
+In R, every object can store data through attributes, setting them using `attr()`. To access them, you can use `attr()` itself or the operator `%@%` provided by `purrr`. Thus, I only need to take an ordinary mathematical function and add the data needed through attributes.
 
-For convenience, I also define `print` and `as.character` methods for the `symbolic` class, so
-working with these functions in an interactive environment becomes more pleasurable. Finally, I'm going to create
-a function for computing the n-th derivative of a function symbolically.
+For convenience, I also define `print` and `as.character` methods for the `symbolic` class, so working with these functions in an interactive environment becomes more pleasurable. Finally, I'm going to create a function for computing the n-th derivative of a function symbolically.
 
 ``` r
 library(purrr)
@@ -93,11 +73,7 @@ D = function(f, n = 1) {
 }
 ```
 
-A very important tool for us, used extensively through this project, is [*lazy evaluation*][1].
-Its usefulness will become clear when I define the first funcion with this system: the null function.
-We know that the derivative of the null function is the null function itself. I will define it
-in a seemingly circular way. Instinctively, it should result in some kind of error, but it doesn't.
-Look:
+A very important tool for us, used extensively through this project, is [*lazy evaluation*](https://en.wikipedia.org/wiki/Lazy_evaluation). Its usefulness will become clear when I define the first funcion with this system: the null function. We know that the derivative of the null function is the null function itself. I will define it in a seemingly circular way. Instinctively, it should result in some kind of error, but it doesn't. Look:
 
 ``` r
 Null = symbolic(
@@ -119,23 +95,16 @@ D(Null) # the null function itself
 #> x -> 0
 ```
 
-I'm defining `Null` as the result of `symbolic()` applied to a list of parameters,
-one of them being `Null` itself, and still it works fine? How come?
+I'm defining `Null` as the result of `symbolic()` applied to a list of parameters, one of them being `Null` itself, and still it works fine? How come?
 
-The `lazy()` function, used inside `symbolic()`, is the key. It captures the
-*expression* that defines a derivative, but does not evaluate it. In fact, I
-do not need to compute the derivative of a function the moment I define it,
-I just need to know *how* to compute it when I need. That's precisely what
-the `lazy(df)` line is doing. It's storing the expression defining the derivative so later, when I call `D()`, I can use `lazy_eval()` to obtain it.
+The `lazy()` function, used inside `symbolic()`, is the key. It captures the *expression* that defines a derivative, but does not evaluate it. In fact, I do not need to compute the derivative of a function the moment I define it, I just need to know *how* to compute it when I need. That's precisely what the `lazy(df)` line is doing. It's storing the expression defining the derivative so later, when I call `D()`, I can use `lazy_eval()` to obtain it.
 
 Try running the previous code removing the references to `lazy()`. You're going to get this error message:
 
     Error in symbolic(f = function(x) 0, repr = "0", df = Null, type = "null") :
       object 'Null' not found
 
-This happens because `Null` hasn't been defined yet the moment `symbolic()` is called. Lazy evaluation avoids this problem.
-It says that, the moment I want to compute the derivative of `Null`, the result is going to be
-`Null` itself. But then `Null` will already be defined! Problem solved :)
+This happens because `Null` hasn't been defined yet the moment `symbolic()` is called. Lazy evaluation avoids this problem. It says that, the moment I want to compute the derivative of `Null`, the result is going to be `Null` itself. But then `Null` will already be defined! Problem solved :)
 
 Using the same idea, we can define a few more classes of functions:
 
@@ -196,10 +165,7 @@ Exp = symbolic(
 is_exp = function(x) x%@%"type" == "exp"
 ```
 
-Strictly speaking, the formula for the inverse of a monomial I gave above is valid only when the function
-is defined for positive numbers only.
-Tackling this kind of problem requires a sophistication I don't want to engage with in this
-series of posts.
+Strictly speaking, the formula for the inverse of a monomial I gave above is valid only when the function is defined for positive numbers only. Tackling this kind of problem requires a sophistication I don't want to engage with in this series of posts.
 
 Now, let's test the functions to see if everything is working fine.
 
@@ -239,13 +205,8 @@ D(f, 2)
 
 It is!
 
-Ok, in this post we were able to define some elementary functions and compute their derivatives, but
-we couldn't have much fun with them yet. Calculus becomes interesting when we can define new functions using sums, products and **compositions** (highlights).
-In the next post of this series I'm going to explain how we can add these features. See you!
+Ok, in this post we were able to define some elementary functions and compute their derivatives, but we couldn't have much fun with them yet. Calculus becomes interesting when we can define new functions using sums, products and **compositions** (highlights). In the next post of this series I'm going to explain how we can add these features. See you!
 
--   Part 2/4: Defining sums, products, and compositions
+-   [Part 2/4: Defining sums, products, and compositions](https://lurodrigo.github.io/2017/05/symbolic-computation-R-2-4/)
 -   Part 3/4: Adding algebraic simplifications
 -   Part 4/4: Producing smarter string representations
-
-[1]:https://en.wikipedia.org/wiki/Lazy_evaluation
-[2]:https://lurodrigo.github.io/2017/05/computacao-simbolica-R-1-4/
