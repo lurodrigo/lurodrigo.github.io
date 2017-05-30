@@ -14,7 +14,7 @@ Analysis, Functional Programming and Computation theory. I program since 13, whe
 my vocational-technical high school at *Nokia Foundation* (now *Mathias Machline
 Foundation*). I speak portuguese as my first language, and also speak english.
 
-I've worked as a systems' analysis, teaching assistant, and lecturer of programming courses. Currently,
+I've worked as a systems' analyst, teaching assistant, and lecturer of programming courses. Currently,
 I work at a consulting firm that specializes at applying econometric models to optimize business. You can
 find more details about my educational background and career path on my [resumé][1]. I also 
 do [private tutoring][2].
