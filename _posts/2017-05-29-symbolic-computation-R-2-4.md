@@ -18,9 +18,9 @@ composition of function can be defined."
 
 *This post was originally written in [portuguese](https://lurodrigo.github.io/2017/05/computacao-simbolica-R-2-4/).*
 
-Today, I'm going to show how we can extend the little language we developed in the previous post so we can define new functions from the existing ones using sums, products, and compositions.
+Today, I'm going to show how we can extend the little language we built in the previous post, enabling us to define new functions from existing ones using sums, products, and compositions.
 
-As a starting point, it might be useful to get the code as finished on the last post. It's available [here](https://github.com/lurodrigo/symbolic/blob/master/R/symbolic_01_en.R)
+As a starting point, it might be useful to get the code as finished on the last post. It's available [here](https://github.com/lurodrigo/symbolic/blob/master/R/symbolic_01_en.R).
 
 Defining sums and products
 --------------------------
@@ -76,7 +76,7 @@ Mono(1, 2) + 0
 
 Notice that we define the sum of functions and its derivative in a very natural manner. It's almost a mathematical definition :)
 
-An interesting convenience we can add is to create a `Sum` function to use when we want to sum an entire list of functions. This way, we might be able to operate them in chains built with the `%>%` operator. We don't even have to write much code to do it: using `reduce`, from the package `purrr`[1], suffices. You pass a list of arguments to this function and a function that takes two operands. It applis the operation to the first two elements of the list, stores the result, applies it and the third element to the function, stores the result, and so on, until the list is exhausted.
+An interesting convenience we can add is a `Sum` function to sum an entire list of functions. With it, we might be able to operate them in chains built with the `%>%` operator. We don't even have to write much code to do it: using `reduce`, from the package `purrr`[1], suffices. You pass a list of arguments to this function and a function that takes two operands. It applies the operation to the first two elements of the list, stores the result, applies it and the third element to the function, stores the result, and so on, until the list is exhausted.
 
 ``` r
 Sum = function(l) reduce(l, `+.symbolic`)
@@ -106,7 +106,7 @@ Poly(1, 3, 3, 1)
 # to fix only in the last post of the series.
 ```
 
-Defining products is analogous to defining sums. The main difference lies on the fact that there are two elementary simplifications we can apply: the cases where one of the operations is 0 or 1.
+Defining products is analogous to defining sums. The main difference lies in the fact that there are two elementary simplifications we can apply: the cases where one of the operations is 0 or 1.
 
 ``` r
 `*.symbolic` = function(f, g) {
@@ -149,7 +149,7 @@ D(Log * Mono())
 Defining compositions
 ---------------------
 
-Function composition is an operation requires attention to many subtleties to be correctly implemented. We'll start from the most simple of them: representation. Up until now we were defining the expressions using directly "x". It's wise to redefine them in termos of a placeholder, that might come to be "x" of an specific "f(x)" in the case of a function composition. To do this, we only need to redefine the `repr` attribute in terms of `{x}`: the `glue` function will take care of the details. Special attention must be paid in the case `repr` is parameterized. In this case, we should use <code>{% raw %}{{x}}{% endraw %}</code>, because `glue` is going to be evaluated two times, in two different moments: one with the usual parameters of `repr`, as soon as the function is defined, and another, with the placeholder instead of `x`, when `as.character` is called.
+Function composition is an operation that requires paying attention to many subtleties when implementing. We'll start from the most simple of them: representation. So far we were defining the expressions using "x" directly. It's wise to redefine them in terms of a placeholder, which might come to be "x" or an specific "f(x)" in the case of a function composition. To do this, we only need to redefine the `repr` attribute in terms of `{x}`: the `glue` function will take care of the details. Special attention must be paid in the case `repr` is parameterized. In this case, we should use <code>{% raw %}{{x}}{% endraw %}</code>, because `glue` is going to be evaluated two times, at two different moments: one with the usual parameters of `repr`, as soon as the function is defined, and another time, with the placeholder instead of `x`, when `as.character` is called.
 
 The changes that must be applied are shown below:
 
@@ -192,15 +192,15 @@ The changes that must be applied are shown below:
   as.character.symbolic = function(f) glue(f%@%"repr", x = "x")
 ```
 
-Now representing function composition becomes trivial. If, for instance, `f%@%"repr"` is `1*{x}^2 + exp({x})`, the line `glue(f%@%"repr", x = "sin(x)")` will give the representation of this function composed with the sine function.
+Now representing function composition becomes trivial. If, for instance, `f%@%"repr"` is `1*{x}^2 + exp({x})`, the line `glue(f%@%"repr", x = "sin(x)")` will give the representation of the composition of itself with the sine function.
 
-Second problem: there's no operator, defined as an R generic function, natural enough to use as a composition operator, there's no <code>°</code> operator. It seems defining a `Compose` function is the best we can do. Or not! It'd be great if we could compose functions by nesting them, such as `Log(Sin)`. Is it possible? Yes, it is!
+Second problem: there's no operator, defined as an R generic function, natural enough to use as a composition operator. There's no <code>°</code> operator. It seems defining a `Compose` function is the best we can do. Or not! It'd be great if we could compose functions by nesting them, such as `Log(Sin)`. Is it possible? Yes, it is!
 
 To do that we need to make quite deep changes to `symbolic()` nonetheless. Currently, it simply preserves the function f, passed as parameter, as is. We can do better. We can construct a new function, g, from it, such that g(x) equals f(x) when the argument is numeric, but g(x) returns a function composition when x is, itself, a symbolic function. For instance, `Log(4)` is evaluated as a number, but `Log(Sin)` is interpreted as a function composition.
 
-It's quite inconvenient but, to do that, we are going to need the variable or auxiliary function (`Mono`, `Exp`, etc) that generates its functions. To store it, one more argument to `symbolic()` will be needed, which we'll call `this`. Naturally, we'll need to add a `this` parameter to the calls to `symbolic()` on the functions we've already defined.
+It's quite inconvenient but, to do that, we need the variable or auxiliary function (`Mono`, `Exp`, etc) that generates the functions. To store it, one more argument to `symbolic()` will be needed, which we'll call `this`. Naturally, we'll need to add a `this` parameter to the calls to `symbolic()` on the functions we've already defined.
 
-The new code for `symbolic()` and the code for `Compose()` can be found below. Their operation is quite sophisticated, so I recommend that you spend a little time testing it and figurind out what's happening on the execution.
+The new code for `symbolic()` and the code for `Compose()` can be found below. Their operation is quite sophisticated, so I recommend that you spend a little time testing it and figuring out what's happening on the execution.
 
 ``` r
 symbolic = function(f, repr, df, type, this, params = list(), inverse = NULL) {
@@ -302,7 +302,7 @@ D(Poly(1, 2, 3)(Log), 2)
 #> x -> ((2)*(1*x^-1))*(1*x^-1) + (2*(log(x))^1 + 2)*(-1*x^-2)
 ```
 
-Except for the extremely long representations, everything seems to be in order :)
+Except for the extremely long representations, everything seems to be working just fine :)
 
 New functions
 -------------
@@ -364,9 +364,7 @@ D(Sin, 4)
 #> x -> (-1)*(-1*(sin(x))^1)
 ```
 
-Of course we can already define tangent, secant and even inverse trigonometric functions, such as the arctangent. I'll let these as an exercise to the reader.
-
-Claro, já podemos definir as funções tangente, secante e até as trigonométricas inversas, como arco-tangente. Isto fica como exercício para o leitor (*risos*). See you on the next post!
+Of course we can already define the tangent, secant and even inverse trigonometric functions, such as the arctangent. I'll let them as an exercise to the reader.
 
 -   [Part 1/4: Building the system's structure](http://lurodrigo.com/2017/05/symbolic-computation-R-1-4/)
 -   Part 3/4: Adding algebraic simplifications
@@ -375,3 +373,4 @@ Claro, já podemos definir as funções tangente, secante e até as trigonométr
 The code as found at the end of this post can be viewed [here](https://github.com/lurodrigo/symbolic/blob/master/R/symbolic_02_en.R).
 
 [1] Base R also has a `Reduce` function doing the same task, but I find the functions from `purrr` more consistent and convenient.
+
