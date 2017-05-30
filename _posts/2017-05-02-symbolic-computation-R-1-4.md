@@ -15,7 +15,7 @@ tags:
 excerpt: "This post starts a series showing how a domain-specific language for symbolic computation can be written using R."
 ---
 
-*This post was originally wirtten in [portuguese](https://lurodrigo.github.io/2017/05/computacao-simbolica-R-1-4/).*
+*This post was originally written in [portuguese](https://lurodrigo.github.io/2017/05/computacao-simbolica-R-1-4/).*
 
 This week I found myself thinking on how packages like `dplyr` use a lot of metaprogramming (that is, computation over the language itself) and functional tools to create functions having a lot of expressive power. I asked myself: can I possibly use these tools for algebraic manipulation? In particular, could I use them to build a system capable of doing symbolic differentiation?
 

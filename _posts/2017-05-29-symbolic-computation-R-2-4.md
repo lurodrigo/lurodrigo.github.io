@@ -311,7 +311,7 @@ Before attacking the representation and simplification problems, there are more 
 
 ``` r
 `-.symbolic` = function(f, g) {
-  # caso do - unário
+  # unary minus
   if (missing(g)) {
     Mono(a = -1)(f)
   } else {
