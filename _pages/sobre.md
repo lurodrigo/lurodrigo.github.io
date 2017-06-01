@@ -25,8 +25,6 @@ A nível pessoal, tenho interesse em música eletrônica (synthwave em particula
 lê não-ficção e livros técnicos. Politicamente, sou liberal nos eixos social
 e econômico. Minha rotina é descrita com alto nível de detalhe no meu [twitter][3].
 
-Train a fully connected, one-layer network on (essentially noisy) positional data from CartPole-v0 to learn first and second derivatives of cart position $$x_t$$ and pole angle $$\theta_t$$ (this is given in OpenAI). The output of this network will be the probability of a derivative $$P(\dot{x_t})$$ and $$P(\dot{\theta_t})$$ and not the derivative itself.
-
 [1]:{{ site.url }}/downloads/lurodrigo-en.pdf
 [2]:{{ site.url }}/aulas/
 [3]:http://twitter.com/lu_rodrigo
