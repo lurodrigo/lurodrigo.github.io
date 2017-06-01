@@ -3,7 +3,6 @@ title: "Sobre mim"
 layout: single
 excerpt: ""
 sitemap: false
-mathjax: true
 permalink: /sobre/
 ---
 
