@@ -62,7 +62,7 @@ grande ganho em simplicidade das contas compensa. A posição de um ponto na sup
 dessa esfera é especificada por uma latitude e uma longitude, costumeiramente
 representados pelas letras $\phi$ e $\lambda$, respectivamente.
 
-![]({{ site.url }}/Central_angle.svg){: .align-right}
+![]({{ site.url }}/images/Central_angle.svg){: .align-right}
 
 Neste caso, o ângulo central $\Delta\sigma$ entre os pontos $\phi_1, \lambda_1$ e $\phi_2, \lambda_2$ é
 dado pela fórmula 
