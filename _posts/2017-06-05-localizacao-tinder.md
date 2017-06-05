@@ -62,7 +62,7 @@ grande ganho em simplicidade das contas compensa. A posição de um ponto na sup
 dessa esfera é especificada por uma latitude e uma longitude, costumeiramente
 representados pelas letras $\phi$ e $\lambda$, respectivamente.
 
-![]({{ site.url }}/images/Central_angle.svg)
+![]({{ site.url }}/images/Central_angle.svg){: .align-center}
 
 Neste caso, o ângulo central $\Delta\sigma$ entre os pontos $\phi_1, \lambda_1$ e $\phi_2, \lambda_2$ é
 dado pela fórmula 
@@ -82,7 +82,7 @@ mesmas.
 
 ![]({{ site.url }}/images/02.png){: .full}
 
-O objetivo é descobrir qual o ponto $P = (\phi_*, \lambda_*)$ com medições de 
+O objetivo é descobrir qual o ponto $P = (\phi^{\ast}, \lambda^{\ast})$ com medições de 
 ângulo central
 $d_A = \Delta\sigma(P, A)$, $d_B = \Delta\sigma(P, B)$ e $d_C = \Delta\sigma(P, C)$.
 Definindo a função $F(X) = (\Delta\sigma(X, A) - d_A, \Delta\sigma(X, B) - d_B)$, 
