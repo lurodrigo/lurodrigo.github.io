@@ -33,17 +33,17 @@ para uma segunda posição B e verifica novamente a distância dita pelo aplicat
 agora é de 7km. Se o problema for bem posto, tipicamente a busca será reduzida
 para duas possibilidades:
 
-![]({{ site.url }}/images/01.png)
+![]({{ site.url }}/images/01.png){: .full}
 
 Movendo-se para uma terceira localização, basta comparar a distância fornecida
 pelo aplicativo com a distância aos dois pontos que restaram, e será possível
 eliminar o caso falso. Pronto, localização descoberta! Claro, você deve ter 
 algumas objeções agora:
 
-1. **A distância fornecida pelo Tinder é arredondada, não é a distância real.**. No aplicativo não, mas
+1. **A distância fornecida pelo Tinder é arredondada, não é a distância real.** No aplicativo não, mas
 a [*Pynder*][3], API pirata do Tinder para Python, permite pegar a distância 
 com precisão dupla. Se essa distância for a correta, estamos bem. 
-2. **A premissa de que a pessoa não se move enquanto mudamos de posição é muito forte!**.
+2. **A premissa de que a pessoa não se move enquanto mudamos de posição é muito forte!**
 De fato, mas a verdade é que esse deslocamento nunca será feito na prática. A API 
 nos permite definir nossa latitude e longitude de forma arbitrária, sem termos 
 que ter nos movido de fato.
@@ -62,7 +62,7 @@ grande ganho em simplicidade das contas compensa. A posição de um ponto na sup
 dessa esfera é especificada por uma latitude e uma longitude, costumeiramente
 representados pelas letras $\phi$ e $\lambda$, respectivamente.
 
-![]({{ site.url }}/images/Central_angle.svg){: .align-right}
+![]({{ site.url }}/images/Central_angle.svg)
 
 Neste caso, o ângulo central $\Delta\sigma$ entre os pontos $\phi_1, \lambda_1$ e $\phi_2, \lambda_2$ é
 dado pela fórmula 
@@ -80,7 +80,7 @@ porque, neste caso, o terceiro ponto é inútil em distinguir
 a posição real entre a posição falsa, dado que as distâncias observadas serão as 
 mesmas.
 
-![]({{ site.url }}/images/02.png)
+![]({{ site.url }}/images/02.png){: .full}
 
 O objetivo é descobrir qual o ponto $P = (\phi_*, \lambda_*)$ com medições de 
 ângulo central
