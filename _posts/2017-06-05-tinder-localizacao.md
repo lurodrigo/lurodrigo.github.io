@@ -15,14 +15,14 @@ tags:
   - Tinder
 mathjax: true
 header:
-    image: /images/header_tinder.png
+    image: header_tinder.png
 excerpt: "Tl;dr: com matemática."
 ---
 
 Eu já havia percebido uma possível vulnerabilidade de segurança no Tinder havia um tempo.
 Ele permite que você saiba as distâncias em que outros usuários se encontram em
-relação a você. Embora pareça inofensiva, informações sobre distâncias, somadas
-a um pouco de perspicácia, permitem descobrir a posição exata de qualquer pessoa na terra.
+relação a você. Embora pareçam inofensivas, informações sobre distâncias, somadas
+a um pouco de perspicácia, permitem descobrir a posição exata de qualquer pessoa.
 Para isso, usa-se uma técnica chamada [*trilateração*][1]. Evidentemente, não
 fui o primeiro a pensar neste problema: a técnica é usada no GPS, por exemplo,
 e também já foi empregada com precisamente a mesma finalidade que a minha
@@ -32,7 +32,7 @@ De todo modo, precisava de um tema para o projeto
 da disciplina de Cálculo Numérico este semestre e essa ideia parecia viável
 (dadas as minhas limitações de tempo) e suficientemente divertida, e cá estamos.
 Este artigo vai explicar como defini matematicamente o problema, utilizei
-programação para implementar um protótipo e, no final, quais conclusões obtive,
+programação para implementar um protótipo e quais conclusões obtive,
 além de uma visualização como a do header acima.
 
 ## A ideia
@@ -57,8 +57,7 @@ a [*Pynder*][3], API pirata do Tinder para Python, permite pegar a distância
 com precisão dupla. Se essa distância for a correta, estamos bem.
 2. **A premissa de que a pessoa não se move enquanto mudamos de posição é muito forte!**
 De fato, mas a verdade é que esse deslocamento nunca será feito na prática. A API
-nos permite definir nossa latitude e longitude de forma arbitrária, sem termos
-que ter nos movido de fato.
+nos permite definir nossa latitude e longitude de forma arbitrária, sem precisarmos ter nos movido de fato.
 3. **A terra não é plana, Luiz**. Claro, tanto que irei modelar a Terra como
 uma esfera ao longo do texto. Apesar disso, em muitos aspectos a geometria
 da superfície da esfera é análoga a do plano, *quando os conceitos envolvidos
@@ -81,13 +80,12 @@ dado pela fórmula
 
 $$\Delta\sigma((\phi_1, \lambda_1), (\phi_2, \lambda_2))=\arccos\bigl(\sin\phi_1\cdot\sin\phi_2+\cos\phi_1\cdot\cos\phi_2\cdot\cos(\Delta\lambda)\bigr)$$
 
-Para obter a distância de fato, basta multiplicar este ângulo pelo raio $r_T$ da Terra.  
-Medições são feitas em três pontos $A = (\phi_A, \lambda_A)$,
+Para obter a distância de fato, basta multiplicar este ângulo pelo raio $r_T$ da Terra. Medições são feitas em três pontos $A = (\phi_A, \lambda_A)$,
 $B = (\phi_B, \lambda_B)$ e $C = (\phi_C, \lambda_C)$ arbitrários. A única restrição é que
 os três pontos não sejam colineares, ou melhor, que não estejam na mesma *geodésia*,
 o análogo ao conceito de reta quanto falamos da superfície da Terra. Isso deve ser observado
-porque, neste caso, o terceiro ponto é inútil em distinguir
-a posição real entre a posição falsa, pois as distâncias observadas serão as
+porque, neste caso, o terceiro ponto é inútil para distinguir entre
+a posição real a posição falsa, pois as distâncias observadas serão as
 mesmas.
 
 ![]({{ site.url }}/images/02.png){: .full}
@@ -100,7 +98,7 @@ vê-se claramente que o ponto que estamos procurando é uma raiz de F. Portanto,
 podemos nos concentrar em encontrar as soluções $S = \\\{P_1, P_2\\\}$ da equação $F(X) = 0$.
 
 Por último, devemos usar o terceiro ponto para fazer uma escolha entre as duas
-opções que restaram. O localização final é obtida por $argmin_{P \in S} {\| r_T\Delta\sigma(P, C) - d_C\|}$. Note que, em termos estritamente matemáticos, a solução final deveria ser o ponto $P_1$ ou $P_2$
+opções que restaram. A localização final é dada por $argmin_{P \in S} {\| r_T\Delta\sigma(P, C) - d_C\|}$. Note que, em termos estritamente matemáticos, a solução final deveria ser o ponto $P_1$ ou $P_2$
 que satisfizesse $r_T\Delta\sigma(P, C) = d_C$ de forma exata, mas admitimos uma imprecisão
 devido aos métodos
 numéricos envolvidos no processo.
@@ -171,7 +169,7 @@ print(json.dumps(data))
 
 ## A solução numérica
 
-Queremos encontrar a raiz de uma função $F$ que definida de um modo bastante
+Queremos encontrar a raiz de uma função $F$ que foi definida de um modo bastante
 complicado. Parece trabalhosa (provavelmente impossível) de resolver analiticamente,
 isto é, utilizando somente manipulações algébricas. No entanto, é possível
 encontrar aproximações para as raízes usando métodos numéricos. Neste caso,
@@ -179,21 +177,21 @@ podemos usar uma versão do *método de Newton*.
 
 A ideia é simples. Damos um chute inicial $X_0$ de onde a raiz deve estar e, chegando lá,
 usamos informações sobre a função e suas derivadas parciais para estimar onde a raiz dessa
-função deveria estar localizada *caso* a função variasse de um modo linear. Claro,
+função deveria estar localizada *caso a função variasse de um modo linear*. Claro,
 a função não é realmente linear, mas ao menos devemos ficar mais perto da raiz
 do que estávamos antes. Com isso, chegamos ao um novo ponto $X_1$. Repetimos
 esse processo até que nos demos por satisfeitos.
 
 ![]({{ site.url }}/images/05.png)
 
-Matematicamente, a relação entre um chute e o próximo é expressa por $X_{n+1} == X_n - J_F (X_n)^{-1} F(X_n)$,
+Matematicamente, a relação entre um chute e o próximo é expressa por $X_{n+1} = X_n - J_F (X_n)^{-1} F(X_n)$,
 onde $J_F$ é a jacobiana de $F$. Essa relação sugere claramente o uso de um loop. No código
-abaixo, eu defino a `dist`, que é basicamente a função $F$ acima sem a subtração
+abaixo, eu defino `dist`, que é essencialmente a função $F$ definida anteriormente, sem a subtração
 das distâncias medidas. A partir dela, crio uma função que gera as funções $F$ para
-cada contato em que estamos interessado, já que nada mais são que deslocamentos
+cada contato em que estamos interessados, que nada mais são que deslocamentos
 da `dist` original. Defino também a jacobiana e a função para calcular a raiz de F
 usando o método de Newton. Programei o método de Newton de modo a parar quando
-já estiver dando passos menores que $10_{-12}$ ou já tiver dado mais de 20000
+já estiver dando passos menores que $10^{-12}$ ou já tiver dado mais de 20000
 passos.
 
 ```r
@@ -254,17 +252,17 @@ newton = function(f, x0, j, epsilon = 1E-12, max = 20000) {
 
 Uma questão ainda ficou em aberto: precisamos das duas raízes, mas o método de
 Newton só encontra uma delas. Pra ser mais preciso, a raiz que o método de Newton
-encontra depende exclusivamente do chute inicial que demos. O problema é que,
+encontra depende exclusivamente do chute inicial que damos. O problema é que,
 no caso geral, é muito difícil identificar para qual das raízes o sistema
 vai convergir dependendo do chute inicial. De primeira pensei em dar chutes
-iniciais aleatórios. Ora, a estrutura do problema parece bastante simétrica e
-é improvável que, partindo de pontos iniciais aleatórios eu chegue sempre na mesma
-raiz, *uma hora* o método vai ter que me dar as duas raízes.
+iniciais aleatórios. Ora, a estrutura do problema parece bastante simétrica, *fifty-fifty* e
+seria improvável que, partindo de pontos iniciais aleatórios, eu cheguasse sempre na mesma
+raiz. *Uma hora* o método vai ter que me dar as duas raízes!
 
-Pensei um pouco mais sobre a simetria da questão. Consegui provar, por exemplo,
-que as duas raízes são reflexões uma da outra sobre a geodésia que liga A a B.
-Uma intuição que tenho é que, se dermos chutes iniciais simétricos em relação
-a essa geodésia, cada chute inicial deverá parar numa raiz diferente. Não consegui
+Funcionou, mas resolvi pensar um pouco mais sobre a simetria do problema. Consegui provar, por exemplo,
+que as duas raízes são reflexões uma da outra em torno da geodésia que liga A a B.
+Uma intuição que tive é que, se dermos chutes iniciais refletidos em torno
+dessa geodésia, cada chute inicial deveria resultar numa raiz diferente. Não consegui
 provar esse fato, mas a intuição pareceu funcionar na prática. Se
 $A = (\phi_A, \lambda_A)$ e $B = (\phi_B, \lambda_B)$, dou chutes iniciais em
 $(\phi_A, \lambda_B)$ e $(\phi_B, \lambda_A)$. Se a terra fosse plana, estes
@@ -366,9 +364,9 @@ então o método que falhou mesmo.
 ![]({{ site.url }}/images/07.png)
 
 Fui investigar a questão mais um pouco e montei uma tabela com as diferenças entre
-as distâncias medidas pelo tinder e as distâncias dos pontos que obtive em relação
+as distâncias medidas pelo Tinder e as distâncias dos pontos que obtive em relação
 aos pontos A, B e C onde das medições foram feitas. Se tudo estivesse correto,
-esta diferença deveria ser muito próxima de zero. Isto aconteceu com as distâncias
+esta diferença deveria ser muito próxima de zero. Isso aconteceu com as distâncias
 até A e B, afinal, foi para isso que usei o método de Newton. No entanto,
 quando comparados com o ponto C, a distância real do ponto encontrado e a distância
 dada pelo Tinder diferiam, na média, em 624m. Erros desta magnitude não deveriam acontecer mesmo
@@ -376,16 +374,14 @@ levando em consideração que estou aproximando a Terra por uma esfera e não
 por um elipsoide.
 
 Não tenho como confirmar minhas suspeitas, mas acredito que o Tinder fornece
-as distâncias reais somadas a um ruido aleatório de magnitude menor que 1km.
+as distâncias reais somadas a um ruído aleatório de magnitude menor que 1km.
 Esse ruído muda muito pouco a vida do usuário comum, que afinal lê as distâncias
 arredondadas, mas é suficiente para impedir que alguém com acesso a API possa
-usá-la para localizar seus contatos. Essa é uma ideia que me parece até mais
+usá-la para localizar alguém. Essa é uma ideia que me parece até mais
 inteligente que dar acesso ao valor arredondado da distância pela API, como
 faziam antes, pois neste caso ainda seria possível conseguir uma boa
-estimativa da localização do usuário usando uma quantidade grande de medições.
-
-De todo modo, o resultado que obtive parece preciso ao menos para ter uma ideia
-do bairro onde os seus matches estão!
+estimativa da localização do usuário usando uma quantidade grande de medições. De todo modo, os resultados que obtive parecem precisos o suficiente ao menos para ter uma ideia
+do bairro onde os seus matches estão.
 
 ## Try it yourself!
 
