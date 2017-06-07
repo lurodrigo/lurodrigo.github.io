@@ -256,7 +256,7 @@ encontra depende exclusivamente do chute inicial que damos. O problema é que,
 no caso geral, é muito difícil identificar para qual das raízes o sistema
 vai convergir dependendo do chute inicial. De primeira pensei em dar chutes
 iniciais aleatórios. Ora, a estrutura do problema parece bastante simétrica, *fifty-fifty* e
-seria improvável que, partindo de pontos iniciais aleatórios, eu cheguasse sempre na mesma
+seria improvável que, partindo de pontos iniciais aleatórios, eu chegasse sempre na mesma
 raiz. *Uma hora* o método vai ter que me dar as duas raízes!
 
 Funcionou, mas resolvi pensar um pouco mais sobre a simetria do problema. Consegui provar, por exemplo,
@@ -382,6 +382,10 @@ inteligente que dar acesso ao valor arredondado da distância pela API, como
 faziam antes, pois neste caso ainda seria possível conseguir uma boa
 estimativa da localização do usuário usando uma quantidade grande de medições. De todo modo, os resultados que obtive parecem precisos o suficiente ao menos para ter uma ideia
 do bairro onde os seus matches estão.
+
+**Conclusão:** Parece que o Tinder já tinha ouvido a Include Security e bolou um
+mecanismo inteligente que elimina essa brecha.
+{: .notice--danger}
 
 ## Try it yourself!
 
