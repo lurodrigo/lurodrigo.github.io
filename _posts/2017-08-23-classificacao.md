@@ -68,12 +68,12 @@ conjunto quando eles são equivalentes (segundo a relação de equivalência que
 Cada conjunto desses é chamado de uma *classe de equivalência*, e a partição
 é o coleção de todas essas classes de equivalência.
 
-Para exemplificar: peguemos o conjunto $A = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9}$. Uma relação
+Para exemplificar: peguemos o conjunto $A = \{0, 1, 2, 3, 4, 5, 6, 7, 8, 9\}$. Uma relação
 de equivalência que podemos definir sobre ele é a seguinte: chamaremos dois elementos
 desse conjunto de equivalentes quando o resto da divisão deles por 2 for o mesmo.
 Essa relação induz uma partição: podemos formar a classe de equivalência de
-todos os elementos cujo resto da divisão por 2 é 0, ${0, 2, 4, 6, 8}$ e a classe
-de equivalência dos elementos que deixam resto 1, ${1, 3, 5, 7, 9}$. Ou seja,
+todos os elementos cujo resto da divisão por 2 é 0, $\{0, 2, 4, 6, 8\}$ e a classe
+de equivalência dos elementos que deixam resto 1, $\{1, 3, 5, 7, 9\}$. Ou seja,
 a relação de equivalência que defini particionou o conjunto em dois,
 os pares e os ímpares.
 
