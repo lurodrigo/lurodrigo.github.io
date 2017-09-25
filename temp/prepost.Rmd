@@ -1,0 +1,70 @@
+---
+  title: "Criando um mutate condicional usando tidy evalution"
+author: "Luiz Rodrigo de Souza"
+date: "25 de setembro de 2017"
+output: html_document
+---
+  
+  ```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, 
+                      comment = "#>", warning = FALSE)
+
+
+mutate_where = function(.data, condition, ...) {
+  condition = enquo(condition)
+  mods = quos(...) 
+  
+  mods = map2(mods, names(mods), function(quoted_expr, column_name) {
+    quo(if_else(..temp.., !!quoted_expr, !!sym(column_name)))
+  })
+  
+  mutate(.data, ..temp.. = !!condition,
+         !!!mods,
+         ..temp.. = NULL)
+}
+```
+
+Uma das decisões que tomei como programador R esse ano foi usar as soluções
+do tidyverse sempre que possível, ainda que pacotes fora dele oferecessem
+soluções computacionalmente mais eficientes. Isso implica, naturalmente,
+optar pelo dplyr ao invés do data.table. O motivo é que, basicamente, percebi 
+que os recursos computacionais maiores que o dplyr consome são mais baratos que o 
+tempo que eu levava para tentar lembrar o que os hieroglifos do data.table
+significavam um mês depois que haviam sido escritos.
+
+Entretanto, senti falta de algumas conveniências do data.table, em particular,
+a possibilidade de alteração de colunas condicional às linhas. Considere o seguinte
+exemplo: descobri que, devido a alguma falha no sistema, todos os voos registrados
+no dia primeiro de janeiro aconteceram, na verdade, no dia 7 de setembro. Seria
+bem simples corrigir isso usando data.table:
+  
+  ```{r}
+library(nycflights13)
+library(data.table)
+
+dt = data.table(flights)
+head(dt)
+
+dt[month == 1 & day == 1, `:=`(
+  month = 7, 
+  day = 7, 
+  time_hour = time_hour + (ISOdate(2013, 7, 7) - ISOdate(2013, 1, 1))
+)]
+head(dt)
+```
+
+Infelizmente, o dplyr não possui uma forma tão conveniente de tratar esses casos.
+A [recomendação semioficial](https://github.com/tidyverse/dplyr/issues/631)
+é usar vários `if_else`s:
+  
+  ```{r}
+library(dplyr)
+
+flights %>%
+  mutate(
+    month = if_else(month == 1 & day == 1, 7L, month),
+    day = if_else(month == 1 & day == 1, 7L, day),
+    time_hour = if_else(month == 1 & day == 1, time_hour + (ISOdate(2013, 7, 7) - ISOdate(2013, 1, 1)), time_hour)
+  )
+```
+
