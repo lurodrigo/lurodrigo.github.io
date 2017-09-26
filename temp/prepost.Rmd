@@ -1,26 +1,35 @@
 ---
-  title: "Criando um mutate condicional usando tidy evalution"
+title: "Criando um mutate condicional usando tidy evalution"
 author: "Luiz Rodrigo de Souza"
 date: "25 de setembro de 2017"
 output: html_document
 ---
   
-  ```{r setup, include=FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, 
                       comment = "#>", warning = FALSE)
 
-
 mutate_where = function(.data, condition, ...) {
-  condition = enquo(condition)
+  condition = enquo(condition) %>% eval_tidy(.data)
   mods = quos(...) 
   
   mods = map2(mods, names(mods), function(quoted_expr, column_name) {
-    quo(if_else(..temp.., !!quoted_expr, !!sym(column_name)))
+    quo(ifelse(condition, !!quoted_expr, !!sym(column_name)))
   })
   
-  mutate(.data, ..temp.. = !!condition,
-         !!!mods,
-         ..temp.. = NULL)
+  mutate(.data, !!!mods)
+}
+
+mutate_where2 = function(.data, condition, ...) {
+  condition = enquo(condition) %>% eval_tidy(.data)
+  mods = quos(...) 
+  
+  mods = map2(mods, names(mods), function(quoted_expr, column_name) {
+    quo(ifelse(condition, !!quoted_expr, !!sym(column_name))) %>%
+      eval_tidy(.data)
+  })
+  
+  mutate(.data, !!!mods)
 }
 ```
 
@@ -38,7 +47,7 @@ exemplo: descobri que, devido a alguma falha no sistema, todos os voos registrad
 no dia primeiro de janeiro aconteceram, na verdade, no dia 7 de setembro. Seria
 bem simples corrigir isso usando data.table:
   
-  ```{r}
+```{r}
 library(nycflights13)
 library(data.table)
 
@@ -55,16 +64,15 @@ head(dt)
 
 Infelizmente, o dplyr não possui uma forma tão conveniente de tratar esses casos.
 A [recomendação semioficial](https://github.com/tidyverse/dplyr/issues/631)
-é usar vários `if_else`s:
+é usar vários `ifelse`s:
   
-  ```{r}
+```{r}
 library(dplyr)
 
 flights %>%
   mutate(
-    month = if_else(month == 1 & day == 1, 7L, month),
-    day = if_else(month == 1 & day == 1, 7L, day),
-    time_hour = if_else(month == 1 & day == 1, time_hour + (ISOdate(2013, 7, 7) - ISOdate(2013, 1, 1)), time_hour)
+    month = ifelse(month == 1 & day == 1, 7, month),
+    day = ifelse(month == 1 & day == 1, 7, day),
+    time_hour = ifelse(month == 1 & day == 1, time_hour + (ISOdate(2013, 7, 7) - ISOdate(2013, 1, 1)), time_hour)
   )
 ```
-
