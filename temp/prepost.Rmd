@@ -1,5 +1,5 @@
 ---
-title: "Criando um mutate condicional usando tidy evalution"
+title: "Criando seus próprios verbos no dplyr"
 author: "Luiz Rodrigo de Souza"
 date: "25 de setembro de 2017"
 output: html_document
@@ -7,7 +7,10 @@ output: html_document
   
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, collapse = TRUE, 
-                      comment = "#>", warning = FALSE)
+                      comment = "#>", warning = FALSE, message = FALSE)
+
+library(rlang)
+library(purrr)
 
 mutate_where = function(.data, condition, ...) {
   condition = enquo(condition) %>% eval_tidy(.data)
@@ -20,7 +23,7 @@ mutate_where = function(.data, condition, ...) {
   mutate(.data, !!!mods)
 }
 
-mutate_where2 = function(.data, condition, ...) {
+transform_where = function(.data, condition, ...) {
   condition = enquo(condition) %>% eval_tidy(.data)
   mods = quos(...) 
   
@@ -31,12 +34,13 @@ mutate_where2 = function(.data, condition, ...) {
   
   mutate(.data, !!!mods)
 }
+
 ```
 
 Uma das decisões que tomei como programador R esse ano foi usar as soluções
 do tidyverse sempre que possível, ainda que pacotes fora dele oferecessem
 soluções computacionalmente mais eficientes. Isso implica, naturalmente,
-optar pelo dplyr ao invés do data.table. O motivo é que, basicamente, percebi 
+optar pelo dplyr em vez do data.table. O motivo é que, basicamente, percebi 
 que os recursos computacionais maiores que o dplyr consome são mais baratos que o 
 tempo que eu levava para tentar lembrar o que os hieroglifos do data.table
 significavam um mês depois que haviam sido escritos.
@@ -56,10 +60,10 @@ head(dt)
 
 dt[month == 1 & day == 1, `:=`(
   month = 7, 
-  day = 7, 
-  time_hour = time_hour + (ISOdate(2013, 7, 7) - ISOdate(2013, 1, 1))
+  day = 7
 )]
-head(dt)
+
+head(dt[, .(month, day)])
 ```
 
 Infelizmente, o dplyr não possui uma forma tão conveniente de tratar esses casos.
@@ -72,7 +76,137 @@ library(dplyr)
 flights %>%
   mutate(
     month = ifelse(month == 1 & day == 1, 7, month),
-    day = ifelse(month == 1 & day == 1, 7, day),
-    time_hour = ifelse(month == 1 & day == 1, time_hour + (ISOdate(2013, 7, 7) - ISOdate(2013, 1, 1)), time_hour)
-  )
+    day = ifelse(month == 1 & day == 1, 7, day)
+  ) %>%
+  select(month, day)
 ```
+
+Opa! Ainda não está correto. Há diferenças semânticas fortes entre o `:=` do 
+data.table e o `mutate`. O data.table primeiro descobre em quais linhas as operações
+devem ser realizadas e só depois as executa. O código dplyr acima não: a 
+condição no `ifelse` é reavaliada a cada coluna alterada. Além disso, essas operações são feitas 
+no escopo da tabela no estado em que estava antes da execução de qualquer
+modificação, enquanto o `mutate` sempre usa seu estado mais recente. É por isso
+que o resultado final não é o esperado: no momento em que a linha 
+
+```{r, eval  = FALSE}
+day = ifelse(month == 1 & day == 1, 7, day)
+```
+é executada, os valores em `month` já foram modificados para 7 (onde foi o caso),
+a condição falha e os valores armazenados em `day` não são alterados. No entanto,
+um workaround é possível: podemos criar uma coluna temporária para armazenar
+o resultado da condição do ifelse e apagá-la depois das modificações:
+
+```{r}
+flights %>%
+  mutate(
+    condicao = month == 1 & day == 1,
+    month = ifelse(condicao, 7, month),
+    day = ifelse(condicao, 7, day),
+    condicao = NULL
+  ) %>%
+  select(month, day)
+```
+
+Ok, funciona, mas ainda há duas inconveniências em relação à versão data.table:
+primeiro, precisamos manipular diretamente uma coluna lógica temporária, e depois,
+ainda temos que repetir explicitamente o nome da coluna dentro dos `ifelse`s para
+que o valor atual seja mantido quando a condição falhar. 
+
+Percebi, então, 
+que o `mutate` é um verbo inconveniente nesse tipo de situação. Felizmente, 
+o Tidyverse lançou, há algum tempo, o framework de *tidy evaluation* que permite,
+entre outras coisas, criar novos verbos para o dplyr com alguma facilidade. O objetivo
+desse post é criar verbos que funcionem de forma similar à sentença `dt[cond, col := val]` 
+do data.table dentro do dplyr.
+
+## Criando o verbo `transform_where`
+
+A solução que desenvolvi para essa situação foi o verbo `transform_where`. Aqui
+está um exemplo do seu funcionamento:
+
+```{r}
+flights %>%
+  transform_where(
+    month == 1 & day == 1,
+    month = 7,
+    day = 7
+  ) %>%
+  select(month, day)
+```
+
+Tão compacto quanto a versão data.table, mas ainda tem a vantagem de produzir
+código fácil de ler! E quanto código isso levou? Bem, umas dez linhas:
+
+```{r, eval = FALSE}
+library(rlang)
+library(purrr)
+
+transform_where = function(.data, condition, ...) {
+  condition = enquo(condition) %>% eval_tidy(.data)
+  mods = quos(...) 
+  
+  mods = map2(mods, names(mods), function(quoted_expr, column_name) {
+    quo(ifelse(condition, !!quoted_expr, !!sym(column_name))) %>%
+      eval_tidy(.data)
+  })
+  
+  mutate(.data, !!!mods)
+}
+```
+
+Ok, o código é curto, mas é críptico para quem nunca teve contato com 
+*non-standard evaluation* em geral, e com o framework de tidy evaluation em 
+particular. Vou tentar explicar com algum detalhe como isso tudo está funcionando.
+Primeiro, os argumentos: `.data` representa a tabela, `condition` a condição,
+e `...`, os outros argumentos, isto é, as modificações que devem ser realizadas.
+
+Vamos para a primeira linha. 
+
+```{r, eval = FALSE}
+condition = enquo(condition) %>% eval_tidy(.data)
+```
+
+`rlang::enquo` é a função que faz magia negra para capturar a *expressão* (aqui chamada
+de *quosure*) que foi
+passada para `condition`, e não seu valor. Afinal, esse valor sequer é válido ainda,
+pois `month == 1 & day == 1` não indica explicitamente em que tabela `month` e `day`
+estão. É aqui que entra a função `rlang::eval_tidy`, que executa a expressão passada
+a ela dentro do ambiente indicado (`.data`). Agora o interpretador sabe onde
+procurar os `month` e `day`: são colunas da tabela `.data`, oras! Ao final dessa
+linha, condition guardará um vetor lógico, com `TRUE` nas linhas onde a condição passou
+e `FALSE` onde falhou. Próxima linha: 
+
+
+```{r, eval = FALSE}
+mods = quos(...)
+```
+
+`rlang::quos` faz a mesma coisa que `enquo`, mas para uma lista de expressões toda de 
+uma vez. No caso em que essa lista tem nomes, eles também são guardados. Faça 
+o teste:
+
+```{r}
+func = function(...) {
+  print(quos(...))
+}
+
+func(a == b, c + 1)
+func(x = x + 2, y = y*3)
+```
+
+A função a seguir é o coração de todo o processo:
+
+```{r}
+function(quoted_expr, column_name) {
+  quo(ifelse(condition, !!quoted_expr, !!sym(column_name))) %>%
+    eval_tidy(.data)
+}
+```
+
+O que ela faz? Ela transforma uma expressão `x = expr` em `x = ifelse(condition, expr, x)`.
+Ou seja, ela transforma assignments simples em expressões complexas envolvendo
+condições e `ifelse`s, nos poupando o trabalho de digitá-los. Essa função 
+tem dois parâmetros: `quoted_expr`, uma expressão que foi capturada anteriormente,
+e `column_name`, o nome da coluna.
+
