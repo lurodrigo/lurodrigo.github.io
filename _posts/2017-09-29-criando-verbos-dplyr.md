@@ -1,6 +1,6 @@
 ---
 title:  "Criando nossos próprios verbos no dplyr"
-date:   2017-08-23 20:00:00 -0300
+date:   2017-09-29 21:50:00 -0300
 categories:
   - R
   - R_pt
