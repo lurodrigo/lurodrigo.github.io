@@ -327,7 +327,7 @@ e sim
 mutate(.data, x = ifelse(condition, 7, x), y = ifelse(condition, 7, y))
 ```
 
-Aí essas modificações serão executadas com a semântica tradicional do dplyr, isto é, as expressões podem usar os valores modificados que acabaram de ser computados, ao invés dos valores guardados antes da execução da função.
+então essas modificações são executadas com a semântica tradicional do dplyr, isto é, usando eventualmente os valores modificados que acabaram de ser computados, em vez dos valores guardados antes da execução da função.
 
 Qual a melhor das duas funções? Depende do contexto. No caso que abriu o post, certamente um `transform_where` funciona melhor. Agora imagine uma situação onde os dados de partida e chegada estivessem incorretos em algumas linhas. A variável `air_time`, tempo de voo, também precisará ser atualizada. Nesse caso, um `mutate_where` corrigindo os valores de `dep_time` e `arr_time` e recalculando `air_time` como essa diferença resolverá a situação, enquanto um `transform_where`, iria, de fato, manter a coluna `air_time` como estava antes. Na prática, sempre tenho as duas em mãos.
 
