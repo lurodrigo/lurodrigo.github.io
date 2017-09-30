@@ -248,7 +248,7 @@ transform_where = function(.data, condition, ...) {
   mods = quos(...) 
   
   mods = map2(mods, names(mods), function(quoted_expr, column_name) {
-    enquo(ifelse(condition, !!quoted_expr, !!sym(column_name))) %&gt;%
+    quo(ifelse(condition, !!quoted_expr, !!sym(column_name))) %&gt;%
       eval_tidy(.data)
   })
   
@@ -257,7 +257,7 @@ transform_where = function(.data, condition, ...) {
 <p>Ok, o código é curto, mas é críptico para quem nunca teve contato com <em>non-standard evaluation</em> em geral, e com o framework de tidy evaluation em particular. Vou tentar explicar com algum detalhe como isso tudo está funcionando. Primeiro, os argumentos: <code>.data</code> representa a tabela, <code>condition</code> a condição, e <code>...</code>, os outros argumentos, isto é, as modificações que devem ser realizadas.</p>
 <p>Vamos para a primeira linha.</p>
 <pre class="r"><code>condition = enquo(condition) %&gt;% eval_tidy(.data)</code></pre>
-<p><code>rlang::enquo</code> é a função que faz magia negra para capturar a <em>expressão</em> (aqui chamada de <em>quosure</em>) que foi passada para <code>condition</code>, e não seu valor. Afinal, esse valor sequer é válido ainda, pois <code>month == 1 &amp; day == 1</code> não indica explicitamente em que tabela <code>month</code> e <code>day</code> estão. É aqui que entra a função <code>rlang::eval_tidy</code>, que executa a expressão passada a ela dentro do ambiente indicado (<code>.data</code>). Agora o interpretador sabe onde procurar os <code>month</code> e <code>day</code>: são colunas da tabela <code>.data</code>, oras! Ao final dessa linha, condition guardará um vetor lógico, com <code>TRUE</code> nas linhas onde a condição passou e <code>FALSE</code> onde falhou. Próxima linha:</p>
+<p><code>rlang::enquo</code> é a função que faz magia negra para capturar, numa estrutura chamada denominada <em>quosure</em>, a <em>expressão</em> que foi passada para <code>condition</code>, e não seu valor. Afinal, esse valor sequer é válido ainda, pois <code>month == 1 &amp; day == 1</code> não indica explicitamente em que tabela <code>month</code> e <code>day</code> estão. É aqui que entra a função <code>rlang::eval_tidy</code>, que executa a expressão passada a ela dentro do ambiente indicado (<code>.data</code>). Agora o interpretador sabe onde procurar os <code>month</code> e <code>day</code>: são colunas da tabela <code>.data</code>, oras! Ao final dessa linha, condition guardará um vetor lógico, com <code>TRUE</code> nas linhas onde a condição passou e <code>FALSE</code> onde falhou. Próxima linha:</p>
 <pre class="r"><code>mods = quos(...)</code></pre>
 <p><code>rlang::quos</code> faz a mesma coisa que <code>enquo</code>, mas para uma lista de expressões toda de uma vez. No caso em que essa lista tem nomes, eles também são guardados. Faça o teste:</p>
 <pre class="r"><code>func = function(...) {
@@ -286,6 +286,70 @@ func(x = x + 2, y = y*3)
 #&gt; 
 #&gt; attr(,&quot;class&quot;)
 #&gt; [1] &quot;quosures&quot;</code></pre>
+<p>A função a seguir é o coração de todo o processo. Ela transforma uma expressão <code>x = expr</code> em <code>x = ifelse(condition, expr, x)</code>. Ou seja, ela transforma assignments simples em expressões complexas envolvendo condições e <code>ifelse</code>s, nos poupando o trabalho de digitá-los.</p>
+<pre class="r"><code>function(quoted_expr, column_name) {
+  quo(ifelse(condition, !!quoted_expr, !!sym(column_name))) %&gt;%
+    eval_tidy(.data)
+}
+#&gt; function(quoted_expr, column_name) {
+#&gt;   quo(ifelse(condition, !!quoted_expr, !!sym(column_name))) %&gt;%
+#&gt;     eval_tidy(.data)
+#&gt; }</code></pre>
+<p>Essa função tem dois parâmetros: <code>quoted_expr</code>, uma expressão que foi capturada anteriormente, e <code>column_name</code>, o nome da coluna. A função <code>rlang::quo</code> salva a expressão passada como parâmetro em uma quosure, e o operador <code>!!</code> faz o contrário: transforma uma quosure numa expressão. A função <code>rlang::sym</code>, por sua vez, transforma uma string em uma expressão (um símbolo, mais especificamente). Agora já dá pra entender a ação da seguinte linha:</p>
+<pre class="r"><code>quo(ifelse(condition, !!quoted_expr, !!sym(column_name)))</code></pre>
+<p>Imaginemos que <code>quoted_expr</code> é uma quosure que guarda a expressão <code>7</code> e <code>column_name</code> é string <code>&quot;month&quot;</code>: após a ação do <code>!!</code>, a linha acima equivale a:</p>
+<pre class="r"><code>quo(ifelse(condition, 7, month))</code></pre>
+<p>Essa quosure resultante é passada para <code>eval_tidy</code>, que calcula o valor dessa expressão dentro da tabela <code>.data</code>. No fim, a função retorna um vetor contendo o novo valor da coluna.</p>
+<p>Para quem não conhece, <code>purrr::map2</code> é essencialmente uma generalização de <code>lapply</code> que toma duas listas ou vetores como argumento, além de uma função de dois parâmetros. Dados <code>x = c(x1, x2, x3)</code>, <code>y = c(y1, y2, y2)</code> e <code>f</code>, retorna uma lista <code>list(f(x1, y1), f(x2, y2), f(x3, y3))</code>. Além disso, se o primeiro vetor ou lista tem <code>names</code>, esses <code>names</code> são mantidos na lista resultante. Já expliquei tudo o que é necessário para entender o trecho completo.</p>
+<pre class="r"><code>mods = map2(mods, names(mods), function(quoted_expr, column_name) {
+  quo(ifelse(condition, !!quoted_expr, !!sym(column_name))) %&gt;%
+    eval_tidy(.data)
+})</code></pre>
+<p>O trecho pega <code>mods</code>, uma lista cujos <code>names</code> são os nomes das colunas e cujos valores são expressões, e retorna uma nova lista com os mesmos <code>names</code>, nomes das colunas, mas com as colunas já calculadas a partir de um <code>ifelse</code> adequado.</p>
+<p>Por último, o operador <code>!!!</code> é para <code>quos</code> o que <code>!!</code> é para <code>quo</code>: transforma uma lista de quosures em uma sequência de expressões. Então a última linha,</p>
+<pre class="r"><code>mutate(.data, !!!mods)</code></pre>
+<p>após a ação do <code>!!!</code>, equivale a</p>
+<pre class="r"><code>mutate(.data, x = vetorx, y = vetory)</code></pre>
+<p>onde <code>vetorx</code> e <code>vetory</code> são os resultados que foram obtidos anteriormente após a execução dos <code>ifelse</code>s. E pronto! Após todas essas manipulações de quosures, chegamos ao resultado que queríamos!</p>
+</div>
+<div id="criando-um-mutate_where" class="section level2">
+<h2>Criando um <code>mutate_where</code>:</h2>
+<p>Eu chamei a função de <code>transform_where</code> ao invés de <code>mutate_where</code> em analogia à diferença entre as funções <code>transform</code> e <code>mutate</code>: a primeira executa no contexto inicial da tabela, e a última, sempre no contexto mais recente. O exemplo abaixo esclarece a diferença.</p>
+<pre class="r"><code>df = data.frame(x = 1:5)
+df %&gt;% transform(x = x + 1, y = x + 1)
+#&gt;   x y
+#&gt; 1 2 2
+#&gt; 2 3 3
+#&gt; 3 4 4
+#&gt; 4 5 5
+#&gt; 5 6 6
+df %&gt;% mutate(x = x + 1, y = x + 1)
+#&gt;   x y
+#&gt; 1 2 3
+#&gt; 2 3 4
+#&gt; 3 4 5
+#&gt; 4 5 6
+#&gt; 5 6 7</code></pre>
+<p>Eu criei um <code>transform_where</code> porque parecia atender melhor minhas necessidades, mas é possível conceber situações onde um <code>mutate_where</code> fosse mais conveniente. É muito mais difícil fazer isso? Não. Eis o código:</p>
+<pre class="r"><code>mutate_where = function(.data, condition, ...) {
+  condition = enquo(condition) %&gt;% eval_tidy(.data)
+  mods = quos(...) 
+  
+  mods = map2(mods, names(mods), function(quoted_expr, column_name) {
+    quo(ifelse(condition, !!quoted_expr, !!sym(column_name)))
+  })
+  
+  mutate(.data, !!!mods)
+}</code></pre>
+<p>Ele é <em>quase</em> igual ao código do <code>transform_where</code>, com uma pequena diferença: não há um <code>eval_tidy</code> dentro da função auxiliar. Isso faz com que, ao invés de se calcular logo o valor das colunas modificadas, apenas se substitua as expressões passadas por expressões envoltas por um <code>ifelse</code>. Ao contrário de antes, a linha</p>
+<pre class="r"><code>mutate(.data, !!!mods)</code></pre>
+<p>não vira</p>
+<pre class="r"><code>mutate(.data, x = vetorx, y = vetory)</code></pre>
+<p>e sim</p>
+<pre class="r"><code>mutate(.data, x = ifelse(condition, 7, x), y = ifelse(condition, 7, y))</code></pre>
+<p>Aí essas modificações serão executadas com a semântica tradicional do dplyr, isto é, as expressões podem usar os valores modificados que acabaram de ser computados, ao invés dos valores guardados antes da execução da função.</p>
+<p>Qual a melhor das duas funções? Depende do contexto. No caso que abriu o post, certamente um <code>transform_where</code> funciona melhor. Agora imagine uma situação onde os dados de partida e chegada estivessem incorretos em algumas linhas. A variável <code>air_time</code>, tempo de voo, também precisará ser atualizada. Nesse caso, um <code>mutate_where</code> corrigindo os valores de <code>dep_time</code> e <code>arr_time</code> e recalculando <code>air_time</code> como essa diferença resolverá a situação, enquanto um <code>transform_where</code>, iria, de fato, manter a coluna <code>air_time</code> como estava antes. Na prática, sempre tenho as duas em mãos.</p>
+<p><strong>Exercício para o leitor:</strong> Uma diferença entre o meu <code>transform_where</code> e o funcionamento do <code>data.table</code> é que esse último consegue criar colunas novas, preenchendo-as com <code>NA</code> nas linhas onde a condição é falsa. Sinceramente, esse comportamento me desagrada, por implicar que a tabela poderá sair com formatos diferentes dependendo de uma condição de forma meio implícita. De todo modo, como poderíamos modificar <code>transform_where</code> para que ela tenha esse comportamento?</p>
 </div>
 
 

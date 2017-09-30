@@ -2,7 +2,9 @@
 title: "Criando seus próprios verbos no dplyr"
 author: "Luiz Rodrigo de Souza"
 date: "25 de setembro de 2017"
-output: html_document
+output:
+  md_document:
+    variant: markdown_github
 ---
   
 ```{r setup, include=FALSE}
@@ -167,8 +169,8 @@ Vamos para a primeira linha.
 condition = enquo(condition) %>% eval_tidy(.data)
 ```
 
-`rlang::enquo` é a função que faz magia negra para capturar a *expressão* (aqui chamada
-de *quosure*) que foi
+`rlang::enquo` é a função que faz magia negra para capturar, numa estrutura chamada
+denominada *quosure*, a *expressão* que foi
 passada para `condition`, e não seu valor. Afinal, esse valor sequer é válido ainda,
 pois `month == 1 & day == 1` não indica explicitamente em que tabela `month` e `day`
 estão. É aqui que entra a função `rlang::eval_tidy`, que executa a expressão passada
@@ -195,7 +197,10 @@ func(a == b, c + 1)
 func(x = x + 2, y = y*3)
 ```
 
-A função a seguir é o coração de todo o processo:
+A função a seguir é o coração de todo o processo. Ela transforma uma expressão 
+`x = expr` em `x = ifelse(condition, expr, x)`.
+Ou seja, ela transforma assignments simples em expressões complexas envolvendo
+condições e `ifelse`s, nos poupando o trabalho de digitá-los.
 
 ```{r}
 function(quoted_expr, column_name) {
@@ -204,9 +209,131 @@ function(quoted_expr, column_name) {
 }
 ```
 
-O que ela faz? Ela transforma uma expressão `x = expr` em `x = ifelse(condition, expr, x)`.
-Ou seja, ela transforma assignments simples em expressões complexas envolvendo
-condições e `ifelse`s, nos poupando o trabalho de digitá-los. Essa função 
-tem dois parâmetros: `quoted_expr`, uma expressão que foi capturada anteriormente,
-e `column_name`, o nome da coluna.
+Essa função tem dois parâmetros: `quoted_expr`, uma expressão que foi capturada anteriormente,
+e `column_name`, o nome da coluna. A função `rlang::quo` salva a expressão
+passada como parâmetro em uma quosure, e o operador `!!` faz o contrário: 
+transforma uma quosure numa expressão. A função `rlang::sym`, por sua vez, 
+transforma uma string em uma expressão (um símbolo, mais especificamente). Agora
+já dá pra entender a ação da seguinte linha:
+
+```{r, eval = FALSE}
+quo(ifelse(condition, !!quoted_expr, !!sym(column_name)))
+```
+
+Imaginemos que `quoted_expr` é uma quosure que guarda a expressão `7` e `column_name` é
+string `"month"`: após a ação do `!!`, a linha acima equivale a:
+
+```{r, eval = FALSE}
+quo(ifelse(condition, 7, month))
+```
+
+Essa quosure resultante é passada para `eval_tidy`, que calcula o valor dessa
+expressão dentro da tabela `.data`. No fim, a função retorna um vetor contendo
+o novo valor da coluna. 
+
+Para quem não conhece, `purrr::map2` é essencialmente uma generalização de 
+`lapply` que toma duas listas ou vetores como argumento, além de uma função
+de dois parâmetros. Dados `x = c(x1, x2, x3)`, `y = c(y1, y2, y2)` e `f`, retorna
+uma lista `list(f(x1, y1), f(x2, y2), f(x3, y3))`. Além disso, se o primeiro
+vetor ou lista tem `names`, esses `names` são mantidos na lista resultante. Já
+expliquei tudo o que é necessário para entender o trecho completo.
+
+```{r, eval = FALSE}
+mods = map2(mods, names(mods), function(quoted_expr, column_name) {
+  quo(ifelse(condition, !!quoted_expr, !!sym(column_name))) %>%
+    eval_tidy(.data)
+})
+``` 
+
+O trecho pega `mods`, uma lista cujos `names` são os nomes das colunas e cujos
+valores são expressões, e retorna uma nova lista com os mesmos `names`, nomes 
+das colunas, mas com as colunas já calculadas a partir de um `ifelse` adequado.
+
+Por último, o operador `!!!` é para `quos` o que `!!` é para `quo`: transforma
+uma lista de quosures em uma sequência de expressões. Então a última linha, 
+
+```{r, eval = FALSE}
+mutate(.data, !!!mods)
+```
+
+após a ação do `!!!`, equivale a
+
+```{r, eval = FALSE}
+mutate(.data, x = vetorx, y = vetory)
+```
+
+onde `vetorx` e `vetory` são os resultados que foram obtidos anteriormente 
+após a execução dos `ifelse`s. E pronto! Após todas essas manipulações de 
+quosures, chegamos ao resultado que queríamos!
+
+## Criando um `mutate_where`:
+
+Eu chamei a função de `transform_where` ao invés de `mutate_where` em analogia
+à diferença entre as funções `transform` e `mutate`: a primeira executa no 
+contexto inicial da tabela, e a última, sempre no contexto mais recente. O 
+exemplo abaixo esclarece a diferença.
+
+```{r}
+df = data.frame(x = 1:5)
+df %>% transform(x = x + 1, y = x + 1)
+df %>% mutate(x = x + 1, y = x + 1)
+```
+
+Eu criei um `transform_where` porque parecia atender melhor minhas
+necessidades, mas é possível conceber situações onde um `mutate_where` fosse
+mais conveniente. É muito mais difícil fazer isso? Não. Eis o código:
+
+```{r, eval = FALSE}
+mutate_where = function(.data, condition, ...) {
+  condition = enquo(condition) %>% eval_tidy(.data)
+  mods = quos(...) 
+  
+  mods = map2(mods, names(mods), function(quoted_expr, column_name) {
+    quo(ifelse(condition, !!quoted_expr, !!sym(column_name)))
+  })
+  
+  mutate(.data, !!!mods)
+}
+```
+
+Ele é *quase* igual ao código do `transform_where`, com uma pequena diferença:
+não há um `eval_tidy` dentro da função auxiliar. Isso faz com que, ao invés de
+se calcular logo o valor das colunas modificadas, apenas se substitua as expressões
+passadas por expressões envoltas por um `ifelse`. Ao contrário de antes, a linha
+
+```{r, eval = FALSE}
+mutate(.data, !!!mods)
+```
+
+não vira
+
+```{r, eval = FALSE}
+mutate(.data, x = vetorx, y = vetory)
+```
+
+e sim
+
+```{r, eval = FALSE}
+mutate(.data, x = ifelse(condition, 7, x), y = ifelse(condition, 7, y))
+```
+
+Aí essas modificações serão executadas com a semântica tradicional do dplyr, 
+isto é, as expressões podem usar os valores modificados que acabaram de ser 
+computados, ao invés dos valores guardados antes da execução da função.
+
+Qual a melhor das duas funções? Depende do contexto. No caso que abriu o post,
+certamente um `transform_where` funciona melhor. Agora imagine uma situação onde 
+os dados de partida e chegada estivessem incorretos em algumas linhas. A variável
+`air_time`, tempo de voo, também precisará ser atualizada. Nesse caso, 
+um `mutate_where` corrigindo os valores de `dep_time` e `arr_time` e recalculando
+`air_time` como essa diferença resolverá a situação, enquanto um `transform_where`,
+iria, de fato, manter a coluna `air_time` como estava antes. Na prática, sempre
+tenho as duas em mãos.
+
+**Exercício para o leitor:** Uma diferença entre o meu `transform_where` e 
+o funcionamento do `data.table` é que esse último consegue criar colunas novas,
+preenchendo-as com `NA` nas linhas onde a condição é falsa. Sinceramente, esse
+comportamento me desagrada, por implicar que a tabela poderá sair com formatos
+diferentes dependendo de uma condição de forma meio implícita. De todo modo, 
+como poderíamos modificar `transform_where` para que ela tenha esse comportamento?
 
