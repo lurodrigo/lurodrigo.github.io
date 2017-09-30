@@ -246,7 +246,7 @@ quo(ifelse(condition, 7, month))
 
 Essa quosure resultante é passada para `eval_tidy`, que calcula o valor dessa expressão dentro da tabela `.data`. No fim, a função retorna um vetor contendo o novo valor da coluna.
 
-Para quem não conhece, `purrr::map2` é essencialmente uma generalização de `lapply` que toma duas listas ou vetores como argumento, além de uma função de dois parâmetros. Dados `x = c(x1, x2, x3)`, `y = c(y1, y2, y2)` e `f`, retorna uma lista `list(f(x1, y1), f(x2, y2), f(x3, y3))`. Além disso, se o primeiro vetor ou lista tem `names`, esses `names` são mantidos na lista resultante. Já expliquei tudo o que é necessário para entender o trecho completo.
+Para quem não conhece, `purrr::map2` é essencialmente uma generalização de `lapply` que toma duas listas ou vetores como argumento, além de uma função de dois parâmetros. Dados `x = c(x1, x2, x3)`, `y = c(y1, y2, y2)` e `f`, retorna uma lista `list(f(x1, y1), f(x2, y2), f(x3, y3))`. Além disso, se o primeiro vetor ou lista tem `names`, esses `names` são mantidos na lista resultante. Agora já dá pra entender o trecho completo.
 
 ``` r
 mods = map2(mods, names(mods), function(quoted_expr, column_name) {
@@ -255,7 +255,7 @@ mods = map2(mods, names(mods), function(quoted_expr, column_name) {
 })
 ```
 
-O trecho pega `mods`, uma lista cujos `names` são os nomes das colunas e cujos valores são expressões, e retorna uma nova lista com os mesmos `names`, nomes das colunas, mas com as colunas já calculadas a partir de um `ifelse` adequado.
+Pegamos `mods`, uma lista cujos `names` são os nomes das colunas e cujos valores são expressões, e retornamos uma nova lista com os mesmos `names`, nomes das colunas, mas com as colunas já calculadas a partir de um `ifelse` adequado.
 
 Por último, o operador `!!!` é para `quos` o que `!!` é para `quo`: transforma uma lista de quosures em uma sequência de expressões. Então a última linha,
 
