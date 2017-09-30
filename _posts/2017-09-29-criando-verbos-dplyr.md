@@ -155,7 +155,7 @@ flights %>%
 #> # ... with 336,766 more rows
 ```
 
-Tão compacto quanto a versão data.table, mas ainda tem a vantagem de produzir código fácil de ler! E quanto código isso levou? Bem, umas dez linhas:
+Tão compacto quanto a versão data.table e ainda tem a vantagem de produzir código fácil de ler! E quanto código isso levou? Bem, umas dez linhas:
 
 ``` r
 library(rlang)
@@ -182,7 +182,7 @@ Vamos para a primeira linha.
 condition = enquo(condition) %>% eval_tidy(.data)
 ```
 
-`rlang::enquo` é a função que faz magia negra para capturar, numa estrutura chamada denominada *quosure*, a *expressão* que foi passada para `condition`, e não seu valor. Afinal, esse valor sequer é válido ainda, pois `month == 1 & day == 1` não indica explicitamente em que tabela `month` e `day` estão. É aqui que entra a função `rlang::eval_tidy`, que executa a expressão passada a ela dentro do ambiente indicado (`.data`). Agora o interpretador sabe onde procurar os `month` e `day`: são colunas da tabela `.data`, oras! Ao final dessa linha, condition guardará um vetor lógico, com `TRUE` nas linhas onde a condição passou e `FALSE` onde falhou. Próxima linha:
+`rlang::enquo` é uma função que faz alguma magia negra para guardar, numa estrutura chamada denominada *quosure*, a *expressão* que foi passada para `condition`, e não seu valor. Afinal, esse valor sequer é válido ainda, pois `month == 1 & day == 1` não indica explicitamente em que tabela `month` e `day` estão. É aqui que entra a função `rlang::eval_tidy`, que executa a expressão passada a ela dentro do ambiente indicado (`.data`). Agora o interpretador sabe onde procurar os `month` e `day`: são colunas da tabela `.data`, oras! Ao final dessa linha, condition guardará um vetor lógico, com `TRUE` nas linhas onde a condição passou e `FALSE` onde falhou. Próxima linha:
 
 ``` r
 mods = quos(...)
@@ -232,7 +232,7 @@ function(quoted_expr, column_name) {
 #> }
 ```
 
-Essa função tem dois parâmetros: `quoted_expr`, uma expressão que foi capturada anteriormente, e `column_name`, o nome da coluna. A função `rlang::quo` salva a expressão passada como parâmetro em uma quosure, e o operador `!!` faz o contrário: transforma uma quosure numa expressão. A função `rlang::sym`, por sua vez, transforma uma string em uma expressão (um símbolo, mais especificamente). Agora já dá pra entender a ação da seguinte linha:
+Essa função tem dois parâmetros: `quoted_expr`, uma quosure com uma expressão capturada anteriormente, e `column_name`, o nome da coluna em uma string. A função `rlang::quo` salva a expressão passada como parâmetro em uma quosure, e o operador `!!` faz o inverso: transforma uma quosure numa expressão. A função `rlang::sym`, por sua vez, transforma uma string em uma expressão (um símbolo, mais especificamente). Agora já dá pra entender a ação da seguinte linha:
 
 ``` r
 quo(ifelse(condition, !!quoted_expr, !!sym(column_name)))
