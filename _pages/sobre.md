@@ -10,7 +10,7 @@ permalink: /sobre/
 ![][4]
 
 Sou manauara radicado no Rio de Janeiro. Estudo Matemática Aplicada na *Universidade Federal
-do Rio de Janeiro* (UFRJ), sexto período. Meus maiores interesses acadêmicos estão em álgebra, lógica,
+do Rio de Janeiro* (UFRJ), sétimo período. Meus maiores interesses acadêmicos estão em álgebra, lógica,
 programação funcional e teoria da computação. Programo desde os 13 anos de idade, quando iniciei
 o ensino médio técnico na *Fundação Nokia de Ensino* (atual *Fundação Matias Machline*). Falo português
 e inglês, e a linguagem de programação que mais uso é R.

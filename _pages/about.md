@@ -9,7 +9,7 @@ permalink: /about/
 ![][4]
 
 I was born in Manaus, now living in Rio de Janeiro. I'm an Applied Mathematics undergraduate at
-*Federal University of Rio de Janeiro* (UFRJ), junior year. My main academic interests are
+*Federal University of Rio de Janeiro* (UFRJ), senior year. My main academic interests are
 algebra, logic, functional Programming and computation theory. I program since 13, when I started
 my vocational-technical high school at *Nokia Foundation* (now *Mathias Machline
 Foundation*). I speak portuguese as my first language, and also speak english.
