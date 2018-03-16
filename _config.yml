@@ -162,6 +162,11 @@ kramdown:
   smart_quotes: lsquo,rsquo,ldquo,rdquo
   enable_coderay: false
 
+collections:
+  mmfin1:
+    output: true
+    permalink: /:collection/:path/
+
 defaults:
   # _posts
   - scope:
@@ -181,6 +186,18 @@ defaults:
     values:
       layout: single
       author_profile: true
+  # _mmfin1
+  - scope:
+      path: ""
+      type: mmfin1
+    values:
+      layout: single
+      read_time: false
+      author_profile: false
+      share: false
+      comments: false
+      sidebar:
+        nav: "mmfin1"
 
 # Sass/SCSS
 sass:
@@ -247,3 +264,4 @@ compress_html:
   clippings: all
   ignore:
     envs: development
+remote_theme: "mmistakes/minimal-mistakes"
