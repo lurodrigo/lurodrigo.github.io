@@ -8,4 +8,4 @@ toc: true
 
 <iframe src="https://lurodrigo.shinyapps.io/exerc1/" width="1000px" height="700px" style="border:0;"></iframe>
 
-[Ver código-fonte.](https://github.com/lurodrigo/mmfin/tree/master/exerc1)
+[Ver código-fonte.](https://github.com/lurodrigo/mmfin1/tree/master/exerc1)
