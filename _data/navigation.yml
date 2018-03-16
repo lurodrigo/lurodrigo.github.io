@@ -2,6 +2,9 @@
 main:
   - title: "Aulas"
     url: /aulas/
+    
+  - title: "Projetos"
+    url: /projetos/
 
   - title: "Sobre mim"
     url: /sobre/
