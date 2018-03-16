@@ -12,3 +12,12 @@ main:
   - title: "About me"
     url: /about/
 
+mmfin1:
+  - title: Modelagem Matemática em Finanças I
+    url: /mmfin1/index.html
+  - title: Apps Shiny
+    children:
+      - title: "Exercício 1"
+        url: /mmfin1/exerc1/
+
+
