@@ -11,7 +11,7 @@ title                    : "Luiz Rodrigo"
 title_separator          : "-"
 name                     : "Luiz Rodrigo"
 description              : "Um blog pessoal sobre R, matemática e outras coisas mais."
-url                      : https://lurodrigo.github.io
+url                      : https://lurodrigo.com
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : lurodrigo/lurodrigo.github.io
 teaser                   : # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
