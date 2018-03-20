@@ -21,7 +21,7 @@ nas seguintes disciplinas:
 * Estruturas de Dados e Algoritmos
 * Outras disciplinas do curso de Matemática (perguntar)
 
-Valor: R$ 80/hora
+Valor: R$ 100/hora
 
 Condições especiais para aulas em dupla/trio, alunos regulares e horas consecutivas. 
 Trabalho com aulas esporádicas e também com acompanhamento contínuo para escola e vestibular. 
