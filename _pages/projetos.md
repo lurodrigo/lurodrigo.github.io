@@ -13,9 +13,9 @@ Nessa página você pode acompanhar materiais, pequenos aplicativos e repositór
 
 [**Modelagem Matemática em Finanças I**][1]: Soluções e aplicativos Shiny para os exercícios desta disciplina da UFRJ.
 
-[**Project Euler**][2]: Para a disciplina na UFRJ. Contém soluções para uma lista de problemas selecionados. Alguns problemas são resolvidos em versões mais gerais.
-
 ### Inativos
+
+[**Project Euler**][2]: Para a disciplina na UFRJ. Contém soluções para uma lista de problemas selecionados. Alguns problemas são resolvidos em versões mais gerais.
 
 [**Informática Olímpica**][3]: Soluções para problemas da Olimpíada Brasileira de Informática (OBI). 
 
