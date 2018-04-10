@@ -1,5 +1,5 @@
 ---
-title: "Modelo Multinomial"
+title: "Modelo Binomial de precificação de opções"
 permalink: /mmfin1/bopm/
 excerpt: ""
 last_modified_at:  2018-01-02 23:00:00 -0300

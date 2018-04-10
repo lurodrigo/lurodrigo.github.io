@@ -1,5 +1,5 @@
 ---
-title: "Exercício 1"
+title: "Random Walk"
 permalink: /mmfin1/exerc1/
 excerpt: ""
 last_modified_at:  2018-01-02 23:00:00 -0300
