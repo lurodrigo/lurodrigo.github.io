@@ -232,7 +232,7 @@ utilizar vários resultados previstos para operações comutativas. Todos
 os resultados que conhecemos para monoides valem para monoides comutativos, mas
 existem teoremas que valem exclusivamente para monoides comutativos.
 De certa forma, fizemos uma troca: perdemos informação para ganhar estrutura.
-Nesse caso, a comutativade é fundamental: é justamente ela que garante que
+E, nesse caso, a comutativade é fundamental: é justamente ela que garante que
 o resultado da contagem dará o mesmo independente da ordem das letras, oras!
 
 Por último, notamos que há um isomorfismo entre multiconjuntos
