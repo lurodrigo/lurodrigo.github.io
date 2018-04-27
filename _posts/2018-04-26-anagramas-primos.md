@@ -100,8 +100,7 @@ no outro, os "caracteres" são os valores possíveis que uma linha pode assumir.
 
 *Exemplo 5:* Pensemos em somente dois valores: `par` ou `ímpar`. Definimos uma
 operação soma sobre esses dois valores de forma intuitiva: `par` + `par` =
-`ímpar` + `ímpar` = `par` e `par` + `ímpar` = `ímpar` + `par` = `ímpar`.
-dão `par`. O conjunto {`par`, `impar`} com essa soma é um monoide, onde
+`ímpar` + `ímpar` = `par` e `par` + `ímpar` = `ímpar` + `par` = `ímpar`. O conjunto {`par`, `impar`} com essa soma é um monoide, onde
 o elemento neutro é `par`.
 
 Podemos pensar monoides como uma estrutura em que elementos
@@ -128,11 +127,11 @@ Isso quer dizer que eu posso trabalhar com um monoide ou com o outro
 conforme a conveniência, porque do **ponto de vista das operações, esses dois
 monoides são apenas representações diferentes da mesma coisa**.
 
-No caso anterior, o isomorfismo é dado pela função $f: n \mapsto 2^n$. f leva 0 em 1,
+No caso anterior, o isomorfismo é dado pela função $f: n \mapsto 2^n$. $f$ leva 0 em 1,
 1 em 2, 2 em 4, 3 em 8, 4 em 16 e assim vai. Essa função
 é inversível: podemos voltar atrás com a função $f^{-1}: n \mapsto \log_2 n$.
 Com 8, temos $\log_2 8 = 3$; com 16, $\log_2 16 = 4$; enfim, podemos transitar
-livremente entre um conjunto e outro usando $f$ e $f^-1$.
+livremente entre um conjunto e outro usando $f$ e $f^{-1}$.
 
 *Observação:* se temos uma correspondência 1-para-1 entre $\\{0, 1, 2, 3, 4, \dots\\}$
 e $\\{1, 2, 4, 8, \dots\\}$, significa que os dois conjuntos têm a mesma
