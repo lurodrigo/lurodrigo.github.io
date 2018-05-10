@@ -13,6 +13,8 @@ Nessa página você pode acompanhar materiais, pequenos aplicativos e repositór
 
 [**Modelagem Matemática em Finanças I**][1]: Soluções e aplicativos Shiny para os exercícios desta disciplina da UFRJ.
 
+[**Compara IDH**][6]: Um pequeno app que revela quais países tem nível de desenvolvimento humano parecido com o do seu bairro.
+
 ### Inativos
 
 [**Project Euler**][2]: Para a disciplina na UFRJ. Contém soluções para uma lista de problemas selecionados. Alguns problemas são resolvidos em versões mais gerais.
@@ -31,3 +33,4 @@ foi adicionado ao Tidyverse.
 [3]:https://github.com/lurodrigo/solved-problems
 [4]:https://github.com/lurodrigo/pasnake
 [5]:https://github.com/lurodrigo/pformat
+[6]:{{ site.url }}/compara_idh
