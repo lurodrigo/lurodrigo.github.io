@@ -23,7 +23,7 @@ $(document).ready(function() {
         options: [],
         labelField: 'label',
         valueField: 'id',
-        placeholder: "Escolha um município",
+        placeholder: "Escolha uma localização",
         searchField: ['label'],
         onChange: function(value) {
           set_message(value);
