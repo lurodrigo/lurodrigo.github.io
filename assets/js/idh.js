@@ -16,8 +16,6 @@ set_message = function(id) {
     );
 }
 
-window.jQuery('#texto').html("aaaa");
-
 $(document).ready(function() {
     $('#municipio').selectize({
         options: [],
