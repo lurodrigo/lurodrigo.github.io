@@ -163,7 +163,7 @@ kramdown:
   enable_coderay: false
 
 collections:
-  mmfin1:
+  mmfin:
     output: true
     permalink: /:collection/:path/
 
@@ -186,10 +186,10 @@ defaults:
     values:
       layout: single
       author_profile: true
-  # _mmfin1
+  # _mmfin
   - scope:
       path: ""
-      type: mmfin1
+      type: mmfin
     values:
       layout: single
       read_time: false
@@ -197,7 +197,7 @@ defaults:
       share: false
       comments: false
       sidebar:
-        nav: "mmfin1"
+        nav: "mmfin"
 
 # Sass/SCSS
 sass:

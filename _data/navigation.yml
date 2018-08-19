@@ -12,7 +12,7 @@ main:
   - title: "About me"
     url: /about/
 
-mmfin1:
+mmfin:
   - title: Modelagem Matemática em Finanças
     url: /mmfin/index.html
   - title: Apps Shiny
