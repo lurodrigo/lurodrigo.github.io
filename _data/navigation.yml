@@ -13,13 +13,13 @@ main:
     url: /about/
 
 mmfin1:
-  - title: Modelagem Matemática em Finanças I
-    url: /mmfin1/index.html
+  - title: Modelagem Matemática em Finanças
+    url: /mmfin/index.html
   - title: Apps Shiny
     children:
       - title: "Random Walk"
-        url: /mmfin1/exerc1/
-      - title: "Modelo Binomial de precificação de opções"
-        url: /mmfin1/bopm/
+        url: /mmfin/exerc1/
+      - title: "Modelo Binomial de precificação de opções (europeias)"
+        url: /mmfin/bopm/
 
 

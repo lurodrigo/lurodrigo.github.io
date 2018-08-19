@@ -11,7 +11,7 @@ Nessa página você pode acompanhar materiais, pequenos aplicativos e repositór
 
 ### Ativos
 
-[**Modelagem Matemática em Finanças I**][1]: Soluções e aplicativos Shiny para os exercícios desta disciplina da UFRJ.
+[**Modelagem Matemática em Finanças**][1]: Soluções e aplicativos Shiny para os exercícios das disciplinas Modelagem Matemática em Finanças I e II da Matemática Aplicada/UFRJ.
 
 [**Compara IDH**][6]: Um pequeno app que revela quais países tem nível de desenvolvimento humano parecido com o do seu bairro.
 
@@ -28,7 +28,7 @@ foi adicionado ao Tidyverse.
 
 [**Pasnake**][4]: Um joguinho que fiz em Pascal em 2009, ano em que aprendi a programar.
 
-[1]:{{ site.url }}/mmfin1
+[1]:{{ site.url }}/mmfin
 [2]:https://github.com/lurodrigo/project_euler
 [3]:https://github.com/lurodrigo/solved-problems
 [4]:https://github.com/lurodrigo/pasnake
