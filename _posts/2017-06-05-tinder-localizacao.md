@@ -18,6 +18,8 @@ header:
     image: header_tinder.png
 excerpt: "Tl;dr: com matemática."
 ---
+ 
+{: .notice--danger}
 
 Eu já havia percebido uma possível vulnerabilidade de segurança no Tinder havia um tempo.
 Ele permite que você saiba as distâncias em que outros usuários se encontram em
@@ -387,6 +389,11 @@ do bairro onde os seus matches estão.
 mecanismo inteligente que elimina essa brecha.
 {: .notice--danger}
 
+**Conclusão atualizada (29/08/2018):** Na verdade a equipe do Tinder bolou uma solução ainda melhor do que a que havia comentado antes. Na época, suspeitava
+que a posição real fosse somada a um ruido aleatório. Isso preveniria ataques
+que exploram a descontinuidade dos arredonamentos, mas ainda deixaria suscetível
+à Lei dos Grandes Números. A solução implementada contorna isso. [Ver aqui][8].
+
 ## Try it yourself!
 
 Caso você tenha algum conhecimento de R e Python, você pode testar o protótipo
@@ -412,3 +419,4 @@ e `shiny`, `shinydashboard`, `purrr`, `jsonlite` e `leaflet` no R.
 [5]:https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84
 [6]:https://github.com/lurodrigo/MatchLocator-public
 [7]:https://findmyfbid.com/
+[8]:https://robertheaton.com/2018/07/09/how-tinder-keeps-your-location-a-bit-private/
