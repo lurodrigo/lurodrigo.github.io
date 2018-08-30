@@ -393,6 +393,7 @@ mecanismo inteligente que elimina essa brecha.
 que a posição real fosse somada a um ruido aleatório. Isso preveniria ataques
 que exploram a descontinuidade dos arredonamentos, mas ainda deixaria suscetível
 à Lei dos Grandes Números. A solução implementada contorna isso. [Ver aqui][8].
+{: .notice--danger}
 
 ## Try it yourself!
 
