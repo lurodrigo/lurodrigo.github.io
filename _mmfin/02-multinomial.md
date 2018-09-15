@@ -8,4 +8,4 @@ toc: true
 
 <iframe src="http://vm.lurodrigo.com:3838/bopm/" width="1000px" height="1000px" style="border:0;"></iframe>
 
-[Ver código-fonte.](https://github.com/lurodrigo/mmfin1/tree/master/bopm)
+[Ver código-fonte.](https://github.com/lurodrigo/mmfin/tree/master/bopm)
