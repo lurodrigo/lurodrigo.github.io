@@ -41,7 +41,7 @@ $(document).ready(function() {
         selectize.refreshOptions();
     });
 
-    $.getJSON("https://lurodrigo.com/data/tb_idh_min.json", function(data) {
+    $.getJSON("http://lurodrigo.com/data/tb_idh_min.json", function(data) {
       tb_idh = data;
     });
 });
