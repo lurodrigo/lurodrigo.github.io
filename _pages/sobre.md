@@ -9,21 +9,19 @@ permalink: /sobre/
 
 ![][4]
 
-Sou manauara radicado no Rio de Janeiro. Estudo Matemática Aplicada na *Universidade Federal
-do Rio de Janeiro* (UFRJ), sétimo período. Meus maiores interesses acadêmicos estão em álgebra, lógica,
+Sou manauara radicado no Rio de Janeiro. Meus maiores interesses acadêmicos estão em teoria das categorias,
 programação funcional e teoria da computação. Programo desde os 13 anos de idade, quando iniciei
 o ensino médio técnico na *Fundação Nokia de Ensino* (atual *Fundação Matias Machline*). Falo português
-e inglês, e a linguagem de programação que mais uso é R.
+e inglês, e a linguagem de programação que mais uso hoje é Elixir.
 
-Já trabalhei com análise de sistemas, monitoria e lecionando em cursos.
-Atualmente, trabalho numa consultoria especializar em aplicar métodos econométricos ao mundo dos negócios. Você pode encontrar mais
-detalhes sobre minha trajetória profissional e acadêmica no meu [currículo][1]. Também trabalho
+Já trabalhei com análise de sistemas, monitoria e lecionando em cursos, data science,
+desenvolvimento de robôs de trading, pipelines de ingestão de dados, web scraping, e desenvolvimento de software back-end.
+Atualmente, trabalho em uma fintech de meios de pagamento. Você pode encontrar mais
+detalhes sobre minha trajetória profissional e acadêmica no meu LinkedIn. Também trabalho
 com [aulas particulares][2].
 
-A nível pessoal, tenho interesse em música eletrônica (synthwave em particular), cinema art-house
-(iraniano e chinês, em especial), mobilidade urbana e culinária. Sou o tipo de pessoa que só
-lê não-ficção e livros técnicos. Politicamente, sou liberal nos eixos social
-e econômico. Minha rotina é descrita com alto nível de detalhe no meu [twitter][3].
+A nível pessoal, tenho interesse em espiritualidade, musica étnica, música eletrônica (synthwave em particular), cinema art-house
+(iraniano e chinês, em especial), mobilidade urbana e culinária. Sou o tipo de pessoa que muita não-ficção e livros técnicos. 
 
 [1]:{{ site.url }}/downloads/lurodrigo-en.pdf
 [2]:{{ site.url }}/aulas/

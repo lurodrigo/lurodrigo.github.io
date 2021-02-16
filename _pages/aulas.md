@@ -8,9 +8,10 @@ permalink: /aulas/
 
 ![][1]
 
-Tenho quatro anos de experiência dando aulas particulares. Atualmente, me ofereço para dar aulas
+Tenho oito anos de experiência dando aulas particulares. Atualmente, me ofereço para dar aulas
 nas seguintes disciplinas:
 
+* Programação (Elixir e Clojure)
 * Matemática para ensino médio, vestibular e ENEM
 * Cálculo I, II, III, IV
 * Equações Diferenciais
@@ -21,14 +22,14 @@ nas seguintes disciplinas:
 * Estruturas de Dados e Algoritmos
 * Outras disciplinas do curso de Matemática (perguntar)
 
-Valor: R$ 100/hora
+Valor: R$ 150/hora
 
 Condições especiais para aulas em dupla/trio, alunos regulares e horas consecutivas. 
 Trabalho com aulas esporádicas e também com acompanhamento contínuo para escola e vestibular. 
 Dou aulas em seu domicílio ou em bibliotecas públicas.
 
 Você pode entrar em contato comigo através do meu e-mail (me@lurodrigo.com) ou telefone
-(21 96573-9462). Possuo WhatsApp e Telegram.
+(11 988036866). Possuo WhatsApp e Telegram.
 
 Você pode mais sobre minhas referências na página [sobre mim](/sobre/).
 

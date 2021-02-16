@@ -10,7 +10,7 @@ locale                   : "pt-BR"
 title                    : "Luiz Rodrigo"
 title_separator          : "-"
 name                     : "Luiz Rodrigo"
-description              : "Um blog pessoal sobre Clojure, R, matemática e outras coisas mais."
+description              : "Um blog pessoal sobre programação, matemática e outras coisas mais."
 url                      : https://lurodrigo.github.io
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : lurodrigo/lurodrigo.github.io
@@ -77,7 +77,7 @@ analytics:
 author:
   name             : "Luiz Rodrigo"
   avatar           : "lurodrigo.jpg"
-  bio              : "Sócio e desenvolvedor na Polvo Technologies. Matemática Aplicada e Computacional na USP. Interessado em programação funcional, computação científica, finanças quantitativas e descentralização."
+  bio              : "Desenvolvedor de software back-end (Elixir/Clojure). Interessado em programação funcional, computação científica, finanças quantitativas e descentralização."
   location         : "São Paulo"
   email            : me@lurodrigo.com
   uri              :
