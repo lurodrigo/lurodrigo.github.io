@@ -15,6 +15,10 @@ mathjax: true
 excerpt: "Ou: pensando como um algebrista."
 ---
 
+<script type="text/javascript" charset="utf-8" 
+src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,
+https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
+
 Esses dias estava circulando no twitter
 o seguinte algoritmo para verificar se duas palavras são anagramas:
 
