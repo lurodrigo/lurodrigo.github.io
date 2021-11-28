@@ -13,9 +13,9 @@ mathjax: true
 excerpt: "Uma condição matemática para a classificação de idiomas"
 ---
 
-<script type="text/javascript" charset="utf-8" 
-src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML,
-https://vincenttam.github.io/javascripts/MathJaxLocal.js"></script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
 Este ano comecei a ler o livro [Not Exactly: In Praise of Vagueness][1]. O objetivo
 do livro é mostrar como a imprecisão é inerente às nossas tentativas de entender
